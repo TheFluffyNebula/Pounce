@@ -1,12 +1,19 @@
-# React + Vite
+# --Step 4/4--
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Pounce
 
-Currently, two official plugins are available:
+Purpose: The goal from the beginning (August 2024)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+In short, multiplayer realtime solitaire. 
 
-## Expanding the ESLint configuration
+Features to implement:
+- html/css (show all 4 players' hands) + foundation
+  - hand = tableau, pounce pile, stock, waste
+- js interactivity
+  - onClick transition: stock -> waste, waste -> stock
+  - drag transitions: waste -> tableau, waste -> foundation, pounce -> tableau (empty), tableau -> tableau, tableau -> foundation
+- socket connectivity w/ SocketIO
+  - room creation, scoreboard, etc.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Leaving for later (shouldn't be too hard but easier to not implement for now):
+- 3-card draw
