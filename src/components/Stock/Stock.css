@@ -1,0 +1,11 @@
+.stockContainer {
+    /* make the slot visible even when no cards are present */
+    border: 2px solid black;
+    width: 100px;
+    height: 140px;
+}
+
+.card.face-down {
+    background-color: navy;
+    border-radius: 6px;
+}
