@@ -1,1 +1,4 @@
 html/css
+mock data (4 decks), render
+move frontend into client folder, start socketry
+
