@@ -1,6 +1,7 @@
-4/28/25
-* init react (vite): npm create vite@latest .
+4/28/25 | init react (vite): npm create vite@latest .
 4/29/25
 * adjusted createDeck.js (7 -> 6 tableau piles, pounce pile)
 * copied Cards, Stock, Tableau, Waste components over
-
+4/30/25, 5/1/25 | planning (small break)
+5/2/25
+* pounce pile
