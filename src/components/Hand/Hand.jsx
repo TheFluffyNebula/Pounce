@@ -11,12 +11,14 @@ function Hand({
     pouncePile, onPounceClick}) {
     return (
       <div className="hand">
-        <div className="drawContainer">
-          <Stock stockPile={stockPile} onClick={onStockClick} />
-          <Waste wastePile={wastePile} onDrop={onDropToWaste} />
-        </div>
-        <Tableau tableauPiles={tableau} onDrop={onDropToTableau} />
-        <Pounce pouncePile={pouncePile} onClick={onPounceClick} />
+        <div className="leftContainer">
+          <div className="drawContainer">
+            <Stock stockPile={stockPile} onClick={onStockClick} />
+            <Waste wastePile={wastePile} onDrop={onDropToWaste} />
+          </div>
+          <Pounce pouncePile={pouncePile} onClick={onPounceClick} />
+        </div>        
+        <Tableau tableauPiles={tableau} onDrop={onDropToTableau} />      
       </div>
     );
 }
