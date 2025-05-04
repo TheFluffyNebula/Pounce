@@ -12,6 +12,8 @@
 
 .tableau-card-slot {
     margin-top: -100px;
+    width: 100px;
+    height: 140px;
 }
 
 .card.face-down {

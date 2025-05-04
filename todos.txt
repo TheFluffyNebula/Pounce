@@ -1,5 +1,4 @@
 html/css
-* Pounce
 * Hand
 * Render Hands
 mock data (4 decks), render

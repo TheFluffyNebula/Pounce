@@ -5,7 +5,7 @@ import Card from "../Cards/Card";
 
 // if there's at least one card, render the last one
 // if there's no card, visibility hidden
-function Waste({ pouncePile }) {
+function Pounce({ pouncePile, handlePounceClick }) {
     const hasCards = pouncePile.length > 0;
     const card = hasCards ? pouncePile.at(-1) : null;
 
@@ -22,10 +22,12 @@ function Waste({ pouncePile }) {
                     <Card card={card} />
                 </div>
             ) : (
-                <div className="empty-pounce-slot" />
+                <div className="empty-pounce-slot" onClick={handlePounceClick}>
+                    Pounce!
+                </div>
             )}
         </div>
     );
 }
 
-export default Waste
+export default Pounce

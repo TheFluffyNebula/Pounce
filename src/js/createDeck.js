@@ -67,7 +67,7 @@ export const splitDeck = () => {
       splitDeck.stock.push(deck[cur++]);
   }
   // console.log(splitDeck)
-  console.log(splitDeck.tableau);
+  // console.log(splitDeck.tableau);
   return splitDeck;
 }
 
