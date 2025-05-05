@@ -53,6 +53,7 @@ function App() {
   };
 
   function handleDropOnTableau(draggedCard, colIdx, cardSource, fromColIdx = -1) {
+    console.log(draggedCard, colIdx, cardSource, fromColIdx);
     function wasteToTableau() {
       // Make a copy of wastePile and tableau
       const newWaste = [...wastePile];
@@ -99,6 +100,10 @@ function App() {
       setTableau(newTableau);
     }
 
+    function pounceToTableau() {
+
+    }
+
     // console.log("App hDOT", draggedCard, colIdx, cardSource);
     if (!draggedCard) {
       return;
@@ -112,8 +117,14 @@ function App() {
     const tableauCard = tableau.at(colIdx).at(-1);
     // console.log("App hDOT", draggedCard, colIdx, cardSource);
     if (!tableauCard) {
-      if (value != 13) {
-        return;
+      if (cardSource == "pounce") {
+        // any pounce card can be moved into an empty space
+        pounceToTableau();
+      } else {
+        // if it's from waste or tableau, it'd better be a king
+        if (value != 13) {
+          return;
+        }  
       }
       // move the king to the empty square
       if (cardSource == "waste") {
@@ -140,6 +151,7 @@ function App() {
       // console.log("Hey!!");
       tableauToTableau();
     }
+    // can't move pounce to tableau unless empty
   }
 
   function handleDropOnFoundation(draggedCard, colIdx, cardSource, fromColIdx, topCard) {
@@ -228,7 +240,6 @@ function App() {
 
   return (
     <>
-      
       <div className="hand-wrapper hand-bottom">
         <Hand
           data={hands[playerId]}
