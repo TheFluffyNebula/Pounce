@@ -48,24 +48,32 @@ function App() {
         wastePile: newWaste,
       },
     };
-
     setHands(updatedHands);
   };
 
   function handleDropOnTableau(draggedCard, colIdx, cardSource, fromColIdx = -1) {
-    console.log("Hey!");
+    console.log("Drop on tableau!");
+    const playerHand = hands[playerId];
     function wasteToTableau() {
+      // console.log("waste to tableau");
       // Make a copy of wastePile and tableau
-      const newWaste = [...wastePile];
+      const newWaste = [...playerHand.wastePile];
       const cardToMove = newWaste.pop(); // remove top card from waste
       cardToMove.faceUp = true;
 
-      const newTableau = [...tableau];
+      const newTableau = [...playerHand.tableau];
       const updatedColumn = [...newTableau[colIdx], cardToMove]; // add card to the target column
       newTableau[colIdx] = updatedColumn;
 
-      setWastePile(newWaste);
-      setTableau(newTableau);
+      const updatedHands = {
+        ...hands,
+        [playerId]: {
+          ...playerHand,
+          wastePile: newWaste,
+          tableau: newTableau
+        },
+      };
+      setHands(updatedHands);
     }
 
     // information we have: colIdx (drop location)
@@ -81,9 +89,9 @@ function App() {
       // valid move: move all cards from tableau[fromColIdx] past the card to tableau[colIdx]
       console.log("Valid move!");
       // TODO: implement logic
-      const newTableau = [...tableau];
-      let tab1 = [...tableau[fromColIdx]];
-      let tab2 = [...tableau[colIdx]];
+      const newTableau = [...playerHand.tableau];
+      let tab1 = [...playerHand.tableau[fromColIdx]];
+      let tab2 = [...playerHand.tableau[colIdx]];
       // moving from tab1 onto tab2
       const idx = newTableau[fromColIdx].findIndex(
         (c) => c.suit === draggedCard.suit && c.value === draggedCard.value
@@ -97,11 +105,37 @@ function App() {
       tab2 = [...tab2, ...numsToMove]
       newTableau[fromColIdx] = tab1;
       newTableau[colIdx] = tab2;
-      setTableau(newTableau);
+      const updatedHands = {
+        ...hands,
+        [playerId]: {
+          ...playerHand,
+          tableau: newTableau
+        },
+      };
+      setHands(updatedHands);
     }
 
     function pounceToTableau() {
+      console.log("pounce to tableau!");
+      // same as waste -> tableau
+      // Make a copy of pouncePile and tableau
+      const newPounce = [...playerHand.pouncePile];
+      const cardToMove = newPounce.pop(); // remove top card from waste
+      cardToMove.faceUp = true;
 
+      const newTableau = [...playerHand.tableau];
+      const updatedColumn = [...newTableau[colIdx], cardToMove]; // add card to the target column
+      newTableau[colIdx] = updatedColumn;
+
+      const updatedHands = {
+        ...hands,
+        [playerId]: {
+          ...playerHand,
+          pouncePile: newPounce,
+          tableau: newTableau
+        },
+      };
+      setHands(updatedHands);
     }
 
     // console.log("App hDOT", draggedCard, colIdx, cardSource);
@@ -114,7 +148,7 @@ function App() {
     const value = VALUE_TO_NUMBER[draggedCard.value];
     // console.log(value);
 
-    const tableauCard = tableau.at(colIdx).at(-1);
+    const tableauCard = playerHand.tableau.at(colIdx).at(-1);
     // console.log("App hDOT", draggedCard, colIdx, cardSource);
     if (!tableauCard) {
       if (cardSource == "pounce") {

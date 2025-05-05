@@ -12,7 +12,8 @@ function Pounce({ pouncePile, handlePounceClick }) {
     function handleDragStart(e) {
         // console.log("dragging!");
         e.dataTransfer.setData("card", JSON.stringify(card));
-        e.dataTransfer.setData("source", JSON.stringify("pounce"));        
+        e.dataTransfer.setData("source", JSON.stringify("pounce"));     
+        e.dataTransfer.setData("fromColIdx", JSON.stringify(-1));   
     }
 
     return (
