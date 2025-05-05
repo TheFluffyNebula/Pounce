@@ -6,23 +6,23 @@
 .hand-bottom {
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) scale(0.6) translateY(50vh);
 }
 
 .hand-left {
     top: 50%;
     left: 0;
-    transform: translateY(-50%) rotate(-90deg);
+    transform: translateY(-50%) rotate(-90deg) scale(0.5) translateY(-50vw);
 }
 
 .hand-top {
     top: 0;
     left: 50%;
-    transform: translateX(-50%) rotate(180deg);
+    transform: translateX(-50%) rotate(180deg) scale(0.5) translateY(70vh);
 }
 
 .hand-right {
     top: 50%;
     right: 0;
-    transform: translateY(-50%) rotate(90deg);
+    transform: translateY(-50%) rotate(90deg) scale(0.5) translateY(-50vw);
 }

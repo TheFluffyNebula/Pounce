@@ -9,8 +9,7 @@ function Hand({
   onStockClick = () => {},
   onDropToTableau = () => {},
   onPounceClick = () => {},
-  }) {
-    console.log(isLocalPlayer);
+  }) {    
     return (
       <div className="hand">
         <div className="leftContainer">

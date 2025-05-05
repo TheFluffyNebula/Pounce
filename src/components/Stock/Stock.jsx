@@ -5,6 +5,7 @@ import './Stock.css'
 // if there's a card, facedown
 // if there's no card, visibility hidden
 function Stock({ stockPile, onClick }) {
+    // console.log(onClick);
     const hasCards = stockPile.length > 0;
 
     return (

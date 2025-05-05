@@ -36,6 +36,7 @@ function App() {
   
 
   const handleDraw = () => {
+    // console.log("Handling draw!");
     const { newStock, newWaste } = drawCard(stockPile, wastePile);
     setStockPile(newStock);
     setWastePile(newWaste);
