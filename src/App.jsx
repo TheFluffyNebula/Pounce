@@ -7,7 +7,12 @@ import Hand from "./components/Hand/Hand"
 import {splitDeck, VALUE_TO_NUMBER, SUIT_TO_COLOR} from "./js/createDeck"
 import {drawCard} from "./js/gameLogic"
 
-function App() {  
+function App() {
+  const playerId = 2;
+  const leftId = (playerId + 1) % 4;
+  const topId = (playerId + 2) % 4;
+  const rightId = (playerId + 3) % 4;
+
   const [hands, setHands] = useState([
     { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 0
     { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 1
@@ -212,12 +217,34 @@ function App() {
 
   return (
     <>
-      <Hand
-        stockPile={stockPile} onStockClick={handleDraw}
-        wastePile={wastePile}
-        tableau={tableau} onDropToTableau={handleDropOnTableau}
-        pouncePile={pouncePile} onClickPounce={handlePounceClick}
-      />
+      
+      <div className="hand-wrapper hand-bottom">
+        <Hand
+          data={hands[playerId]}
+          isLocalPlayer={true}
+          onStockClick={handleDraw}
+          onDropToTableau={handleDropOnTableau}
+          onPounceClick={handlePounceClick}
+        />
+      </div>
+      <div className="hand-wrapper hand-left">
+        <Hand
+            data={hands[leftId]}
+            isLocalPlayer={false}
+          />
+      </div>
+      <div className="hand-wrapper hand-top">
+        <Hand
+            data={hands[topId]}
+            isLocalPlayer={false}
+          />
+      </div>
+      <div className="hand-wrapper hand-right">
+        <Hand
+            data={hands[rightId]}
+            isLocalPlayer={false}
+          />
+      </div>
     </>
   )
 }

@@ -5,20 +5,22 @@ import Pounce from "../Pounce/Pounce"
 import "./Hand.css"
 
 function Hand({
-    stockPile, onStockClick,
-    wastePile, onDropToWaste,
-    tableau, onDropToTableau,
-    pouncePile, onPounceClick}) {
+  data, isLocalPlayer, 
+  onStockClick = () => {},
+  onDropToTableau = () => {},
+  onPounceClick = () => {},
+  }) {
+    console.log(isLocalPlayer);
     return (
       <div className="hand">
         <div className="leftContainer">
           <div className="drawContainer">
-            <Stock stockPile={stockPile} onClick={onStockClick} />
-            <Waste wastePile={wastePile} onDrop={onDropToWaste} />
+            <Stock stockPile={data.stockPile} onClick={isLocalPlayer? onStockClick : undefined} />
+            <Waste wastePile={data.wastePile} />
           </div>
-          <Pounce pouncePile={pouncePile} onClick={onPounceClick} />
+          <Pounce pouncePile={data.pouncePile} onClick={isLocalPlayer? onPounceClick : undefined} />
         </div>        
-        <Tableau tableauPiles={tableau} onDrop={onDropToTableau} />      
+        <Tableau tableauPiles={data.tableau} onDrop={isLocalPlayer? onDropToTableau : undefined} />
       </div>
     );
 }
