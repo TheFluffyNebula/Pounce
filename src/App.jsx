@@ -7,37 +7,28 @@ import Hand from "./components/Hand/Hand"
 import {splitDeck, VALUE_TO_NUMBER, SUIT_TO_COLOR} from "./js/createDeck"
 import {drawCard} from "./js/gameLogic"
 
-function App() {
-  const [stockPile, setStockPile] = useState([]);
-  const [wastePile, setWastePile] = useState([]);
-  const [tableau, setTableau] = useState([]);
-  const [pouncePile, setPouncePile] = useState([]);
+function App() {  
+  const [hands, setHands] = useState([
+    { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 0
+    { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 1
+    { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 2
+    { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 3
+  ]);
   const [foundation, setFoundation] = useState([[], [], [], []])
 
-  // let sampleCard1 = {
-  //   suit: "♦", 
-  //   value: 'A'
-  // }
-  // let sampleCard2 = {
-  //   suit: "♣", 
-  //   value: 'A'
-  // }
-  // let sampleCard3 = {
-  //   suit: "♠", 
-  //   value: 'A'
-  // }
-  // let sampleCard4 = {
-  //   suit: "♥", 
-  //   value: 'A'
-  // }
-
   useEffect(() => {
+    const newHands = [...hands];
     // Only run once on component mount
-    const deck = splitDeck();
-    setStockPile(deck.stock);
-    setTableau(deck.tableau);
+    for (let i = 0; i < 4; i++) {
+      const deck = splitDeck();
+      newHands[i].stockPile = deck.stock;
+      newHands[i].tableau = deck.tableau;
+      newHands[i].pouncePile = deck.pounce;
+    }
+    setHands(newHands);
     setFoundation([[], [], [], []]);
   }, []);
+  
 
   const handleDraw = () => {
     const { newStock, newWaste } = drawCard(stockPile, wastePile);
