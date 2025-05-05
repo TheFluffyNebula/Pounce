@@ -18,9 +18,9 @@ function Hand({
             <Stock stockPile={data.stockPile} onClick={isLocalPlayer? onStockClick : undefined} />
             <Waste wastePile={data.wastePile} />
           </div>
-          <Pounce pouncePile={data.pouncePile} onClick={isLocalPlayer? onPounceClick : undefined} />
+          <Pounce pouncePile={data.pouncePile} handlePounceClick={isLocalPlayer? onPounceClick : undefined} />
         </div>        
-        <Tableau tableauPiles={data.tableau} onDrop={isLocalPlayer? onDropToTableau : undefined} />
+        <Tableau tableauPiles={data.tableau} onDropToTableau={isLocalPlayer? onDropToTableau : undefined} />
       </div>
     );
 }

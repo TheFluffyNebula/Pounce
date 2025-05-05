@@ -53,7 +53,7 @@ function App() {
   };
 
   function handleDropOnTableau(draggedCard, colIdx, cardSource, fromColIdx = -1) {
-    console.log(draggedCard, colIdx, cardSource, fromColIdx);
+    console.log("Hey!");
     function wasteToTableau() {
       // Make a copy of wastePile and tableau
       const newWaste = [...wastePile];
