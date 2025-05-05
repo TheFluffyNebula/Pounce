@@ -35,11 +35,21 @@ function App() {
   }, []);
   
 
-  const handleDraw = () => {
+  const handleDraw = (e) => {
     // console.log("Handling draw!");
-    const { newStock, newWaste } = drawCard(stockPile, wastePile);
-    setStockPile(newStock);
-    setWastePile(newWaste);
+    const playerHand = hands[playerId];
+    const { newStock, newWaste } = drawCard(playerHand.stockPile, playerHand.wastePile);
+
+    const updatedHands = {
+      ...hands,
+      [playerId]: {
+        ...playerHand,
+        stockPile: newStock,
+        wastePile: newWaste,
+      },
+    };
+
+    setHands(updatedHands);
   };
 
   function handleDropOnTableau(draggedCard, colIdx, cardSource, fromColIdx = -1) {

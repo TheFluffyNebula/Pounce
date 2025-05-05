@@ -3,4 +3,5 @@ html/css
 * Render Hands
 mock data (4 decks), render
 move frontend into client folder, start socketry
-
+1. store player state
+* ex. const [playerId, setPlayerId] = useState(getInitialPlayerId());

@@ -9,7 +9,8 @@ function Hand({
   onStockClick = () => {},
   onDropToTableau = () => {},
   onPounceClick = () => {},
-  }) {    
+  }) {
+    // console.log(data);
     return (
       <div className="hand">
         <div className="leftContainer">
