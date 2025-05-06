@@ -4,8 +4,10 @@ scoreboard
 * tally by round, append child
 
 backend
-1. room creation
-2. store player state
+0. room routes
+* React router1. room creation (see Hearts)
+* API route/procedure like in hearts
+2. store player state in App
 * ex. const [playerId, setPlayerId] = useState(getInitialPlayerId());
 3. game flow
 * round start, round end, game end
