@@ -24,7 +24,7 @@ function Pounce({ pouncePile, handlePounceClick, drag }) {
                 </div>
             ) : (
                 <div className="empty-pounce-slot" onClick={handlePounceClick}>
-                    Pounce!
+                    <h2>Pounce! (Click me)</h2>
                 </div>
             )}
         </div>

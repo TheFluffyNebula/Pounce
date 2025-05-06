@@ -7,8 +7,10 @@
 5/3/25 | merged components into hand
 5/4/25 | merge props
 5/5/25 | finishing up html/css
--- China trip (might be doing a bit less while on traveling)--
+-- China trip (might work less when traveling)--
 5/6/25
 * fixed stock -> waste transition (z-index hitbox adjustment)
-* started foundation rendering
+* locked drag to player's own hand
+* finished listeners and most of frontend as a whole (mostly just scoreboard, announcement banner left)
+
 -- Back in the US --

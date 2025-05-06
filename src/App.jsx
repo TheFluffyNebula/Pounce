@@ -215,8 +215,9 @@ function App() {
 
     function pounceToFoundation() {
       // Make a copy of wastePile and foundation
+      // console.log("Hey!");
       const newPounce = [...playerHand.pouncePile];
-      const cardToMove = newWaste.pop(); // remove top card from waste
+      const cardToMove = newPounce.pop(); // remove top card from waste
       cardToMove.faceUp = true;
 
       const newFoundation = [...foundation];
@@ -241,8 +242,8 @@ function App() {
       }
       // move the top card from tableau[fromColIdx] to foundation[colIdx]
       // Make a copy of tableauPile and foundation
-      const newTableau = [...tableau];
-      let tab1 = [...tableau[fromColIdx]];
+      const newTableau = [...playerHand.tableau];
+      let tab1 = [...playerHand.tableau[fromColIdx]];
       const cardToMove = tab1.pop(); // remove top card from waste
       // make next card below face-up
       if (tab1.length > 0) {
@@ -254,7 +255,14 @@ function App() {
       const updatedColumn = [...newFoundation[colIdx], cardToMove]; // add card to the target column
       newFoundation[colIdx] = updatedColumn;
 
-      setTableau(newTableau);
+      const updatedHands = {
+        ...hands,
+        [playerId]: {
+          ...playerHand,
+          tableau: newTableau
+        },
+      };
+      setHands(updatedHands);
       setFoundation(newFoundation);
     }
 
@@ -268,12 +276,13 @@ function App() {
     const value = VALUE_TO_NUMBER[draggedCard.value];
     // console.log(value);
 
-    const foundationCard = playerHand.foundation.at(colIdx).at(-1);
-    // console.log("App hDOT", draggedCard, colIdx, cardSource);
+    const foundationCard = foundation.at(colIdx).at(-1);
+    // console.log("App hDOf", draggedCard, colIdx, cardSource);
     if (!foundationCard) {
       if (value != 1) {
         return;
       }
+      // console.log("ace");
       // move the ace to the empty square
       if (cardSource == "waste") {
         wasteToFoundation();
