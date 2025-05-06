@@ -1,7 +1,13 @@
-html/css
-* Hand
-* Render Hands
+frontend
+* Foundation Listeners
 mock data (4 decks), render
 move frontend into client folder, start socketry
-1. store player state
+1. room creation
+2. store player state
 * ex. const [playerId, setPlayerId] = useState(getInitialPlayerId());
+3. scoreboard
+* tally by round, append child
+4. game flow
+* round start, round end, game end)
+
+scoreboard

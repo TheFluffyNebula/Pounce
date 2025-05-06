@@ -2,8 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 import './App.css'
-// import Foundation from "./components/Foundation/Foundation"
 import Hand from "./components/Hand/Hand"
+import Foundation from "./components/Foundation/Foundation"
 import {splitDeck, VALUE_TO_NUMBER, SUIT_TO_COLOR} from "./js/createDeck"
 import {drawCard} from "./js/gameLogic"
 
@@ -19,7 +19,7 @@ function App() {
     { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 2
     { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 3
   ]);
-  const [foundation, setFoundation] = useState([[], [], [], []])
+  const [foundation, setFoundation] = useState(Array(12).fill([]));
 
   useEffect(() => {
     const newHands = [...hands];
@@ -31,7 +31,7 @@ function App() {
       newHands[i].pouncePile = deck.pounce;
     }
     setHands(newHands);
-    setFoundation([[], [], [], []]);
+    setFoundation(Array(12).fill([]));
   }, []);
   
 
@@ -52,7 +52,7 @@ function App() {
   };
 
   function handleDropOnTableau(draggedCard, colIdx, cardSource, fromColIdx = -1) {
-    console.log("Drop on tableau!");
+    // console.log("Drop on tableau!");
     const playerHand = hands[playerId];
     function wasteToTableau() {
       // console.log("waste to tableau");
@@ -116,7 +116,7 @@ function App() {
     }
 
     function pounceToTableau() {
-      console.log("pounce to tableau!");
+      // console.log("pounce to tableau!");
       // same as waste -> tableau
       // Make a copy of pouncePile and tableau
       const newPounce = [...playerHand.pouncePile];
@@ -189,6 +189,8 @@ function App() {
   }
 
   function handleDropOnFoundation(draggedCard, colIdx, cardSource, fromColIdx, topCard) {
+    console.log("Drop on foundation!");
+    const playerHand = hands[playerId];
     function wasteToFoundation() {
       // Make a copy of wastePile and foundation
       const newWaste = [...wastePile];
@@ -301,6 +303,7 @@ function App() {
             isLocalPlayer={false}
           />
       </div>
+      <Foundation foundationPiles={foundation} onDropToFoundation={handleDropOnFoundation}/>
     </>
   )
 }
