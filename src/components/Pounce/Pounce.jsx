@@ -5,12 +5,12 @@ import Card from "../Cards/Card";
 
 // if there's at least one card, render the last one
 // if there's no card, visibility hidden
-function Pounce({ pouncePile, handlePounceClick }) {
+function Pounce({ pouncePile, handlePounceClick, drag }) {
     const hasCards = pouncePile.length > 0;
     const card = hasCards ? pouncePile.at(-1) : null;
 
     function handleDragStart(e) {
-        // console.log("dragging!");
+        console.log("dragging!");
         e.dataTransfer.setData("card", JSON.stringify(card));
         e.dataTransfer.setData("source", JSON.stringify("pounce"));     
         e.dataTransfer.setData("fromColIdx", JSON.stringify(-1));   
@@ -19,7 +19,7 @@ function Pounce({ pouncePile, handlePounceClick }) {
     return (
         <div className="pounceContainer">
             {hasCards ? (
-                <div draggable onDragStart={handleDragStart}>
+                <div draggable={drag} onDragStart={handleDragStart}>
                     <Card card={card} />
                 </div>
             ) : (

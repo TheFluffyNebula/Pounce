@@ -5,7 +5,7 @@ import TableauCardSlot from './TableauCardSlot.jsx'
 
 // 7 columns of 13 card slots
 // given 7 arrays, update the card slots of the corresponding piles
-function Tableau({ tableauPiles, onDropToTableau }) {
+function Tableau({ tableauPiles, onDropToTableau, drag }) {
     return (
         <div className="tableauContainer">
             {tableauPiles.map((pile, colIdx) => (
@@ -40,6 +40,7 @@ function Tableau({ tableauPiles, onDropToTableau }) {
                             topCard={topCard}
                             colIdx={colIdx}
                             isEmptySlot={pile.length === 0 && rowIdx === 0}
+                            drag={drag}
                           />
                         );
                     })}

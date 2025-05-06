@@ -16,11 +16,11 @@ function Hand({
         <div className="leftContainer">
           <div className="drawContainer">
             <Stock stockPile={data.stockPile} onClick={isLocalPlayer? onStockClick : undefined} />
-            <Waste wastePile={data.wastePile} />
+            <Waste wastePile={data.wastePile} drag={isLocalPlayer} />
           </div>
-          <Pounce pouncePile={data.pouncePile} handlePounceClick={isLocalPlayer? onPounceClick : undefined} />
+          <Pounce pouncePile={data.pouncePile} handlePounceClick={isLocalPlayer? onPounceClick : undefined} drag={isLocalPlayer} />
         </div>        
-        <Tableau tableauPiles={data.tableau} onDropToTableau={isLocalPlayer? onDropToTableau : undefined} />
+        <Tableau tableauPiles={data.tableau} onDropToTableau={isLocalPlayer? onDropToTableau : undefined} drag={isLocalPlayer} />
       </div>
     );
 }

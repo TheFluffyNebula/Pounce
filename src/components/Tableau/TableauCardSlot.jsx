@@ -1,6 +1,6 @@
 import Card from "../Cards/Card";
 
-function TableauCardSlot({ card, faceUp, topCard, colIdx, isEmptySlot }) {
+function TableauCardSlot({ card, faceUp, topCard, colIdx, isEmptySlot, drag }) {
   function handleDragStart(e) {
     // console.log("dragging!");
     e.dataTransfer.setData("card", JSON.stringify(card));
@@ -17,7 +17,7 @@ function TableauCardSlot({ card, faceUp, topCard, colIdx, isEmptySlot }) {
     <div className="tableau-card-slot">
       {card ? (
         faceUp ? (
-          <div draggable={faceUp} onDragStart={handleDragStart}>
+          <div draggable={faceUp && drag} onDragStart={handleDragStart}>
             <Card card={card} />
           </div>
         ) : (

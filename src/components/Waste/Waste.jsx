@@ -5,7 +5,7 @@ import Card from "../Cards/Card";
 
 // if there's at least one card, render the last one
 // if there's no card, visibility hidden
-function Waste({ wastePile }) {
+function Waste({ wastePile, drag }) {
     const hasCards = wastePile.length > 0;
     const card = hasCards ? wastePile.at(-1) : null;
 
@@ -19,7 +19,7 @@ function Waste({ wastePile }) {
     return (
         <div className="wasteContainer">
             {hasCards ? (
-                <div draggable onDragStart={handleDragStart}>
+                <div draggable={drag} onDragStart={handleDragStart}>
                     <Card card={card} />
                 </div>
             ) : (
