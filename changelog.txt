@@ -12,6 +12,6 @@
 * fixed stock -> waste transition (z-index hitbox adjustment)
 * locked drag to player's own hand
 * finished listeners and most of frontend as a whole (mostly just scoreboard, announcement banner left)
-5/7/25
-moved everything so far into the client folder
+5/7/25 | moved everything so far into the client folder, installed packages (socket.io, socket.io-client, react-router-dom)
+5/8/25 | starting routes refactoring
 -- Back in the US --

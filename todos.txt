@@ -2,6 +2,7 @@ frontend
 move frontend into client folder, start socketry
 scoreboard
 * tally by round, append child
+styles for scoreboard, room creation screen
 
 backend
 0. room routes
