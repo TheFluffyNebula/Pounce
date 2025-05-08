@@ -1,0 +1,29 @@
+.hand-wrapper {
+    position: absolute;
+    transform-origin: center;
+}
+
+.hand-bottom {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scale(0.6) translateY(60vh);
+    z-index: 1;
+}
+
+.hand-left {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) rotate(-90deg) scale(0.5) translateY(-50vw);
+}
+
+.hand-top {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg) scale(0.5) translateY(80vh);
+}
+
+.hand-right {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%) rotate(90deg) scale(0.5) translateY(-50vw);
+}
