@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import './GamePage.css'
 import Hand from "./components/Hand/Hand"
 import Foundation from "./components/Foundation/Foundation"
-import {splitDeck, VALUE_TO_NUMBER, SUIT_TO_COLOR} from "./js/createDeck"
 import {drawCard} from "./js/gameLogic"
 
 function GamePage() {

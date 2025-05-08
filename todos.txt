@@ -1,5 +1,5 @@
 frontend
-move frontend into client folder, start socketry
+start socketry
 scoreboard
 * tally by round, append child
 styles for scoreboard, room creation screen
@@ -9,7 +9,7 @@ backend
 * React router
 1. room creation (see Hearts)
 * API route/procedure like in hearts
-2. store player state in App
+2. store player state in App (move logic to backend)
 * ex. const [playerId, setPlayerId] = useState(getInitialPlayerId());
 3. game flow
 * round start, round end, game end
