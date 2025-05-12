@@ -18,7 +18,7 @@ const getPlayersInRoom = (roomId) => {
 }
 
 const joinRoom = (roomId, userId) => {
-  if (!rooms.has(roomId)) return 1;
+  if (!rooms.has(roomId)) return 1; // room doesn't exist
   if (rooms.get(roomId).players.length == 4) {
     return 2; // room is full
   }

@@ -14,4 +14,5 @@
 * finished listeners and most of frontend as a whole (mostly just scoreboard, announcement banner left)
 5/7/25 | moved everything so far into the client folder, installed packages (socket.io, socket.io-client, react-router-dom)
 5/8/25 | starting routes refactoring, copied a lot of the hearts socketry over
+5/12/25 | create/join room
 -- Back in the US --
