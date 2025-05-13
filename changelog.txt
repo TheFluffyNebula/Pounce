@@ -7,7 +7,7 @@
 5/3/25 | merged components into hand
 5/4/25 | merge props
 5/5/25 | finishing up html/css
--- China trip (might work less when traveling)--
+-- China trip (might work less when traveling) --
 5/6/25
 * fixed stock -> waste transition (z-index hitbox adjustment)
 * locked drag to player's own hand
@@ -15,4 +15,5 @@
 5/7/25 | moved everything so far into the client folder, installed packages (socket.io, socket.io-client, react-router-dom)
 5/8/25 | starting routes refactoring, copied a lot of the hearts socketry over
 5/12/25 | create/join room
+5/13/25 | started transferring game-logic to sockets
 -- Back in the US --
