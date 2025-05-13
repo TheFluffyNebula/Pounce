@@ -16,4 +16,5 @@
 5/8/25 | starting routes refactoring, copied a lot of the hearts socketry over
 5/12/25 | create/join room
 5/13/25 | started transferring game-logic to sockets
+5/14/25 | backend game state, socketized some functions
 -- Back in the US --
