@@ -1,5 +1,4 @@
 frontend
-start socketry
 scoreboard
 * tally by round, append child
 styles for scoreboard, room creation screen
