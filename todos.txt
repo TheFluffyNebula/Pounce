@@ -1,14 +1,18 @@
 frontend
 scoreboard
-* tally by round, append child
+* tally by round, append child (sum at the end)
 styles for scoreboard, room creation screen
 
 backend
+debug
 0. room routes
 * React router
 1. room creation (see Hearts)
 * API route/procedure like in hearts
+
+implement
 2. store player state in App (move logic to backend)
-* ex. const [playerId, setPlayerId] = useState(getInitialPlayerId());
+* functions now call socket.emit instead, pass information over to backend
+* consider server side validation for robustness
 3. game flow
 * round start, round end, game end
