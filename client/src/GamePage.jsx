@@ -62,7 +62,7 @@ function GamePage() {
       socket.off("roomId", onRoomId);
       socket.off("dealHands", onDealHands);
       socket.off("playerNum", onPlayerNum);
-      socket.off("updateHand", onUpdateHands);
+      socket.off("updateHands", onUpdateHands);
       socket.off("updateFoundation", onUpdateFoundation);
       socket.off("scoreboardUpdate", onScoreboardUpdate);
     };
@@ -72,6 +72,20 @@ function GamePage() {
     // console.log("Handling draw!");
     socket.emit("drawCard");
   };
+
+  // for the following functions, set data in emit, then let the backend handle it
+  // finally, from the backend emit updateHands
+  const handleDropOnTableau = (draggedCard, colIdx, cardSource, fromColIdx = -1) => {
+    socket.emit("dropTableau");
+  }
+
+  const handleDropOnFoundation = (draggedCard, colIdx, cardSource, fromColIdx, topCard) => {
+    socket.emit("dropFoundation");
+  }
+
+  const handlePounceClick = () => {
+    socket.emit("pounce");
+  }
 
   return (
     <>
