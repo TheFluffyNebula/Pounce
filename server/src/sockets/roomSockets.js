@@ -46,9 +46,6 @@ export default (io) => {
       // let the client know the room id
       io.to(rId).emit("roomId", rId);
 
-      // Generate and shuffle the deck
-      const deck = splitDeck();
-
       // Get all players in the room
       const players = roomUtils.getPlayersInRoom(rId);
 
