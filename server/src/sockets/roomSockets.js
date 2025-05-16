@@ -47,7 +47,7 @@ export default (io) => {
       io.to(rId).emit("roomId", rId);
 
       // Generate and shuffle the deck
-      const deck = generateDeck();
+      const deck = splitDeck();
 
       // Get all players in the room
       const players = roomUtils.getPlayersInRoom(rId);
@@ -64,14 +64,26 @@ export default (io) => {
       // console.log(rD[rId].hands);
       console.log("[server] Cards dealt to players");
       // Emit the hands to everyone
-      io.emit("dealHands", rD[rId].hands);
+      io.to(rId).emit("dealHands", rD[rId].hands);
     });
 
     socket.on("drawCard", () => {
       const rId = socket.data.roomId;
       const players = roomUtils.getPlayersInRoom(rId);
-      const playerIdx = players.indexOf(socket.id);
+      const playerId = players.indexOf(socket.id);
+      const playerHand = rD[rId].hands[playerId];
+      const { newStock, newWaste } = roomUtils.drawCard(playerHand.stockPile, playerHand.wastePile);
 
+      const updatedHands = {
+        ...rD[rId].hands,
+        [playerId]: {
+          ...playerHand,
+          stockPile: newStock,
+          wastePile: newWaste,
+        },
+      };
+
+      io.to(rId).emit("updateHands", updatedHands)
     });
   });
 };
