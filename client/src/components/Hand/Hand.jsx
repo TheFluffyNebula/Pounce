@@ -5,7 +5,8 @@ import Pounce from "../Pounce/Pounce"
 import "./Hand.css"
 
 function Hand({
-  data, isLocalPlayer, 
+  data = { stockPile: [], wastePile: [], tableau: [], pouncePile: [] },
+  isLocalPlayer, 
   onStockClick = () => {},
   onDropToTableau = () => {},
   onPounceClick = () => {},

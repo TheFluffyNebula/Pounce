@@ -34,12 +34,12 @@ function GamePage() {
     }
 
     function onPlayerNum(n) {
-      // console.log(`You are player ${n}`)
+      console.log(`You are player ${n}`);
       setPlayerId(n);
     }
 
     function onUpdateHands(newHands) {
-      // console.log('hands updated!');
+      console.log('hands updated:', newHands);
       setHands(newHands);
     }
 
@@ -91,7 +91,8 @@ function GamePage() {
     <>
       <div className="hand-wrapper hand-bottom">
         <Hand
-          data={hands[playerId]}
+          // handle the n = 4 case (set to zero here)
+          data={hands[playerId % 4]}
           isLocalPlayer={true}
           onStockClick={handleDraw}
           onDropToTableau={handleDropOnTableau}
