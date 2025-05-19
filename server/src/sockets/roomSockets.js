@@ -8,7 +8,7 @@ export default (io) => {
   io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
 
-        socket.on("join", (roomId) => {
+    socket.on("join", (roomId) => {
       socket.join(roomId);
       // Store roomId on the socket object
       socket.data.roomId = roomId;
@@ -64,14 +64,16 @@ export default (io) => {
       io.to(rId).emit("dealHands", rD[rId].hands);
     });
 
-    socket.on("drawCard", () => {
+    socket.on("drawCard", () => {      
       const rId = socket.data.roomId;
       const players = roomUtils.getPlayersInRoom(rId);
       const playerId = players.indexOf(socket.id);
       const playerHand = rD[rId].hands[playerId];
+      console.log("[server] drawing for player", playerId);
+      // console.log(playerHand.wastePile);
       const { newStock, newWaste } = roomUtils.drawCard(playerHand.stockPile, playerHand.wastePile);
-
-      const updatedHands = {
+      // console.log(playerHand);
+      rD[rId].hands = {
         ...rD[rId].hands,
         [playerId]: {
           ...playerHand,
@@ -80,7 +82,7 @@ export default (io) => {
         },
       };
 
-      io.to(rId).emit("updateHands", updatedHands)
+      io.to(rId).emit("updateHands", rD[rId].hands);
     });
   });
 };

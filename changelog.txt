@@ -20,4 +20,5 @@
 5/15/25 | setup filler functions to begin debugging (function placeholders) -- pass in data object to emit?
 5/16/25 | debugged hearts -> pounce changes, initial cards working for 3/4 players
 5/18/25 | fully debugged initial render! bug: playerId = 4, used as array access instead of 0
+5/19/25 | debugged draw card! bug: made copy of backend, updated & sent over instead of updating backend state and sending it
 -- Back in the US --

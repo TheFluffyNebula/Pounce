@@ -39,7 +39,7 @@ function GamePage() {
     }
 
     function onUpdateHands(newHands) {
-      console.log('hands updated:', newHands);
+      console.log('hands updated');
       setHands(newHands);
     }
 
@@ -66,10 +66,10 @@ function GamePage() {
       socket.off("updateFoundation", onUpdateFoundation);
       socket.off("scoreboardUpdate", onScoreboardUpdate);
     };
-  }, []);
+  }, [hands]);
 
   const handleDraw = () => {
-    // console.log("Handling draw!");
+    console.log("Handling draw!", playerId);
     socket.emit("drawCard");
   };
 
@@ -92,7 +92,7 @@ function GamePage() {
       <div className="hand-wrapper hand-bottom">
         <Hand
           // handle the n = 4 case (set to zero here)
-          data={hands[playerId % 4]}
+          data={hands[(playerId + 3) % 4]}
           isLocalPlayer={true}
           onStockClick={handleDraw}
           onDropToTableau={handleDropOnTableau}
@@ -101,19 +101,19 @@ function GamePage() {
       </div>
       <div className="hand-wrapper hand-left">
         <Hand
-            data={hands[leftId]}
+            data={hands[(leftId + 3) % 4]}
             isLocalPlayer={false}
           />
       </div>
       <div className="hand-wrapper hand-top">
         <Hand
-            data={hands[topId]}
+            data={hands[(topId + 3) % 4]}
             isLocalPlayer={false}
           />
       </div>
       <div className="hand-wrapper hand-right">
         <Hand
-            data={hands[rightId]}
+            data={hands[(rightId + 3) % 4]}
             isLocalPlayer={false}
           />
       </div>
