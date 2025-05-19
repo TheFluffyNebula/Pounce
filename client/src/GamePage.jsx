@@ -69,14 +69,20 @@ function GamePage() {
   }, [hands]);
 
   const handleDraw = () => {
-    console.log("Handling draw!", playerId);
+    // console.log("Handling draw!", playerId);
     socket.emit("drawCard");
   };
 
   // for the following functions, set data in emit, then let the backend handle it
   // finally, from the backend emit updateHands
   const handleDropOnTableau = (draggedCard, colIdx, cardSource, fromColIdx = -1) => {
-    socket.emit("dropTableau");
+    const data = {
+      draggedCard: draggedCard, 
+      colIdx: colIdx, 
+      cardSource: cardSource, 
+      fromColIdx: fromColIdx
+    }
+    socket.emit("dropTableau", data);
   }
 
   const handleDropOnFoundation = (draggedCard, colIdx, cardSource, fromColIdx, topCard) => {
