@@ -237,8 +237,130 @@ export default (io) => {
       const colIdx = data.colIdx;
       const cardSource = data.cardSource;
       const fromColIdx = data.fromColIdx;
-      
+      const topCard = data.topCard;
 
+      const playerHand = rD[rId].hands[playerId];
+      function wasteToFoundation() {
+        // Make a copy of wastePile and foundation
+        const newWaste = [...playerHand.wastePile];
+        const cardToMove = newWaste.pop(); // remove top card from waste
+        cardToMove.faceUp = true;
+
+        const newFoundation = [...rD[rId].foundation];
+        const updatedColumn = [...newFoundation[colIdx], cardToMove]; // add card to the target column
+        newFoundation[colIdx] = updatedColumn;
+
+        rD[rId].hands = {
+          ...rD[rId].hands,
+          [playerId]: {
+            ...playerHand,
+            wastePile: newWaste,
+          },
+        };
+        rD[rId].foundation = newFoundation;
+        io.to(rId).emit("updateHands", rD[rId].hands);
+        io.to(rId).emit("updateFoundation", rD[rId].foundation);
+      }
+
+      function pounceToFoundation() {
+        // Make a copy of wastePile and foundation
+        // console.log("Hey!");
+        const newPounce = [...playerHand.pouncePile];
+        const cardToMove = newPounce.pop(); // remove top card from waste
+        cardToMove.faceUp = true;
+
+        const newFoundation = [...rD[rId].foundation];
+        const updatedColumn = [...newFoundation[colIdx], cardToMove]; // add card to the target column
+        newFoundation[colIdx] = updatedColumn;
+
+        rD[rId].hands = {
+          ...rD[rId].hands,
+          [playerId]: {
+            ...playerHand,
+            pouncePile: newPounce,
+          },
+        };
+        rD[rId].foundation = newFoundation;
+        io.to(rId).emit("updateHands", rD[rId].hands);
+        io.to(rId).emit("updateFoundation", rD[rId].foundation);
+      }
+
+      function tableauToFoundation() {
+        // must be top tableau card
+        if (!topCard) {
+          return;
+        }
+        // move the top card from tableau[fromColIdx] to foundation[colIdx]
+        // Make a copy of tableauPile and foundation
+        const newTableau = [...playerHand.tableau];
+        let tab1 = [...playerHand.tableau[fromColIdx]];
+        const cardToMove = tab1.pop(); // remove top card from waste
+        // make next card below face-up
+        if (tab1.length > 0) {
+          tab1.at(-1).faceUp = true;
+        }
+        newTableau[fromColIdx] = tab1;
+
+        const newFoundation = [...rD[rId].foundation];
+        const updatedColumn = [...newFoundation[colIdx], cardToMove]; // add card to the target column
+        newFoundation[colIdx] = updatedColumn;
+
+        rD[rId].hands = {
+          ...rD[rId].hands,
+          [playerId]: {
+            ...playerHand,
+            tableau: newTableau
+          },
+        };
+        rD[rId].foundation = newFoundation;
+        io.to(rId).emit("updateHands", rD[rId].hands);
+        io.to(rId).emit("updateFoundation", rD[rId].foundation);
+      }
+
+      // console.log("App hDOF", draggedCard, colIdx, cardSource);
+      if (!draggedCard) {
+        return;
+      }
+
+      // common functionality: if ace, put into empty slot regardless of source (waste, tableau)
+      const suit = draggedCard.suit;
+      const value = VALUE_TO_NUMBER[draggedCard.value];
+      // console.log(value);
+
+      const foundationCard = rD[rId].foundation.at(colIdx).at(-1);
+      // console.log("App hDOf", draggedCard, colIdx, cardSource);
+      if (!foundationCard) {
+        if (value != 1) {
+          return;
+        }
+        // console.log("ace");
+        // move the ace to the empty square
+        if (cardSource == "waste") {
+          wasteToFoundation();
+        } else if (cardSource == "tableau") {
+          tableauToFoundation();
+        } else if (cardSource == "pounce") {
+          pounceToFoundation();
+        }
+        return;
+      }
+
+      // common functionality: checking if it's a valid move
+      const foundationSuit = foundationCard.suit;
+      const foundationValue = VALUE_TO_NUMBER[foundationCard.value];
+      // console.log(foundationColor, foundationValue);
+      if (suit != foundationSuit || value - foundationValue != 1) {
+        return;
+      }
+      // console.log("Valid move!");
+
+      if (cardSource == "waste") {
+        wasteToFoundation();
+      } else if (cardSource == "tableau") {
+        tableauToFoundation();
+      } else if (cardSource == "pounce") {
+        pounceToFoundation();
+      }
     });
   });
 };

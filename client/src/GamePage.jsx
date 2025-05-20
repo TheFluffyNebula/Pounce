@@ -66,7 +66,8 @@ function GamePage() {
       socket.off("updateFoundation", onUpdateFoundation);
       socket.off("scoreboardUpdate", onScoreboardUpdate);
     };
-  }, [hands]);
+    // question: does the dependency array have to have {hands, foundation} in it?
+  }, []);
 
   const handleDraw = () => {
     // console.log("Handling draw!", playerId);
