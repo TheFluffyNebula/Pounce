@@ -95,7 +95,7 @@ export default (io) => {
       const cardSource = data.cardSource;
       const fromColIdx = data.fromColIdx;
 
-      const playerHand = hands[playerId];
+      const playerHand = rD[rId].hands[playerId];
       function wasteToTableau() {
         // console.log("waste to tableau");
         // Make a copy of wastePile and tableau
@@ -107,15 +107,15 @@ export default (io) => {
         const updatedColumn = [...newTableau[colIdx], cardToMove]; // add card to the target column
         newTableau[colIdx] = updatedColumn;
 
-        const updatedHands = {
-          ...hands,
+        rD[rId].hands = {
+          ...rD[rId].hands,
           [playerId]: {
             ...playerHand,
             wastePile: newWaste,
             tableau: newTableau
           },
         };
-        setHands(updatedHands);
+        io.to(rId).emit("updateHands", rD[rId].hands);
       }
 
       function pounceToTableau() {
@@ -130,15 +130,15 @@ export default (io) => {
         const updatedColumn = [...newTableau[colIdx], cardToMove]; // add card to the target column
         newTableau[colIdx] = updatedColumn;
 
-        const updatedHands = {
-          ...hands,
+        rD[rId].hands = {
+          ...rD[rId].hands,
           [playerId]: {
             ...playerHand,
             pouncePile: newPounce,
             tableau: newTableau
           },
         };
-        setHands(updatedHands);
+        io.to(rId).emit("updateHands", rD[rId].hands);
       }
 
       // information we have: colIdx (drop location)
@@ -152,8 +152,7 @@ export default (io) => {
           return;
         }
         // valid move: move all cards from tableau[fromColIdx] past the card to tableau[colIdx]
-        console.log("Valid move!");
-        // TODO: implement logic
+        // console.log("Valid move!");
         const newTableau = [...playerHand.tableau];
         let tab1 = [...playerHand.tableau[fromColIdx]];
         let tab2 = [...playerHand.tableau[colIdx]];
@@ -170,14 +169,14 @@ export default (io) => {
         tab2 = [...tab2, ...numsToMove]
         newTableau[fromColIdx] = tab1;
         newTableau[colIdx] = tab2;
-        const updatedHands = {
-          ...hands,
+        rD[rId].hands = {
+          ...rD[rId].hands,
           [playerId]: {
             ...playerHand,
             tableau: newTableau
           },
         };
-        setHands(updatedHands);
+        io.to(rId).emit("updateHands", rD[rId].hands);
       }
 
       // console.log("App hDOT", draggedCard, colIdx, cardSource);
