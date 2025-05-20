@@ -227,6 +227,18 @@ export default (io) => {
         tableauToTableau();
       }
       // can't move pounce to tableau unless empty
-    })
+    });
+    socket.on("dropFoundation", (data) => {
+      const rId = socket.data.roomId;
+      const players = roomUtils.getPlayersInRoom(rId);
+      const playerId = players.indexOf(socket.id);
+      // console.log(data);
+      const draggedCard = data.draggedCard;
+      const colIdx = data.colIdx;
+      const cardSource = data.cardSource;
+      const fromColIdx = data.fromColIdx;
+      
+
+    });
   });
 };

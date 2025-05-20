@@ -86,7 +86,14 @@ function GamePage() {
   }
 
   const handleDropOnFoundation = (draggedCard, colIdx, cardSource, fromColIdx, topCard) => {
-    socket.emit("dropFoundation");
+    const data = {
+      draggedCard: draggedCard, 
+      colIdx: colIdx, 
+      cardSource: cardSource, 
+      fromColIdx: fromColIdx, 
+      topCard: topCard
+    }
+    socket.emit("dropFoundation", data);
   }
 
   const handlePounceClick = () => {
