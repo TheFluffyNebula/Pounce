@@ -98,6 +98,7 @@ function GamePage() {
   }
 
   const handlePounceClick = () => {
+    console.log("[client] player has pounced");
     socket.emit("pounce");
   }
 

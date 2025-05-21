@@ -33,6 +33,7 @@ export default (io) => {
                   { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 2
                   { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }], // Player 3
           foundation: Array(12).fill([]), // Center cards
+          curPts: [0, 0, 0, 0], // Current points for this round
           totalPts: [0, 0, 0, 0], // Total points for each player
         };
         return; // don't go here twice
@@ -228,6 +229,7 @@ export default (io) => {
       }
       // can't move pounce to tableau unless empty
     });
+
     socket.on("dropFoundation", (data) => {
       const rId = socket.data.roomId;
       const players = roomUtils.getPlayersInRoom(rId);
@@ -361,6 +363,11 @@ export default (io) => {
       } else if (cardSource == "pounce") {
         pounceToFoundation();
       }
+    });
+
+    socket.on("pounce", () => {
+      console.log("[server] player has pounced!");
+
     });
   });
 };
