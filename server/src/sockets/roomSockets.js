@@ -35,6 +35,7 @@ export default (io) => {
           foundation: Array(12).fill([]), // Center cards
           curPts: [0, 0, 0, 0], // Current points for this round
           totalPts: [0, 0, 0, 0], // Total points for each player
+          playing: false, // Game start status
         };
         return; // don't go here twice
       }
@@ -60,6 +61,10 @@ export default (io) => {
         io.to(player).emit("playerNum", index + 1);
       });
       // console.log(rD[rId].hands);
+      // reset foundation & curPts, start the game!
+      rD[rId].foundation = Array(12).fill([]);
+      rD[rId].curPts = [0, 0, 0, 0];
+      rD[rId].playing = true;
       console.log("[server] Cards dealt to players");
       // Emit the hands to everyone
       io.to(rId).emit("dealHands", rD[rId].hands);
@@ -70,6 +75,9 @@ export default (io) => {
       const players = roomUtils.getPlayersInRoom(rId);
       const playerId = players.indexOf(socket.id);
       const playerHand = rD[rId].hands[playerId];
+      if (!rD[rId].playing) {
+        return;
+      }
       // console.log("[server] drawing for player", playerId);
       // console.log(playerHand.wastePile);
       const { newStock, newWaste } = roomUtils.drawCard(playerHand.stockPile, playerHand.wastePile);
@@ -95,6 +103,10 @@ export default (io) => {
       const colIdx = data.colIdx;
       const cardSource = data.cardSource;
       const fromColIdx = data.fromColIdx;
+
+      if (!rD[rId].playing) {
+        return;
+      }
 
       const playerHand = rD[rId].hands[playerId];
       function wasteToTableau() {
@@ -241,6 +253,10 @@ export default (io) => {
       const fromColIdx = data.fromColIdx;
       const topCard = data.topCard;
 
+      if (!rD[rId].playing) {
+        return;
+      }
+
       const playerHand = rD[rId].hands[playerId];
       function wasteToFoundation() {
         // Make a copy of wastePile and foundation
@@ -260,6 +276,8 @@ export default (io) => {
           },
         };
         rD[rId].foundation = newFoundation;
+        // +1 pt
+        rD[rId].curPts[playerId] += 1;
         io.to(rId).emit("updateHands", rD[rId].hands);
         io.to(rId).emit("updateFoundation", rD[rId].foundation);
       }
@@ -283,6 +301,8 @@ export default (io) => {
           },
         };
         rD[rId].foundation = newFoundation;
+        // +1 pt
+        rD[rId].curPts[playerId] += 1;
         io.to(rId).emit("updateHands", rD[rId].hands);
         io.to(rId).emit("updateFoundation", rD[rId].foundation);
       }
@@ -315,6 +335,8 @@ export default (io) => {
           },
         };
         rD[rId].foundation = newFoundation;
+        // +1 pt
+        rD[rId].curPts[playerId] += 1;
         io.to(rId).emit("updateHands", rD[rId].hands);
         io.to(rId).emit("updateFoundation", rD[rId].foundation);
       }
@@ -367,7 +389,26 @@ export default (io) => {
 
     socket.on("pounce", () => {
       console.log("[server] player has pounced!");
-
+      const rId = socket.data.roomId;
+      // prevent other players from playing any more cards while the total is being tallied
+      rD[rId].playing = false;
+      // update curPts w/ pounce pile lengths
+      for (let i = 0; i < 4; i++) {
+        rD[rId].curPts[i] += (-2 * rD[rId].hands[i].pouncePile.length);
+      }
+      // no js magic
+      // for (let i = 0; i < 4; i++) {
+      //   rD[rId].totalPts[i] += rD[rId].curPts[i];
+      // }
+      // new array
+      // rD[rId].totalPts = rD[rId].totalPts.map((val, i) => val + curPts[i]);
+      // mutate in place
+      rD[rId].curPts.forEach((val, i) => {
+        rD[rId].totalPts[i] += val;
+      });
+      // console.log(rD[rId].curPts, rD[rId].totalPts);
+      // the next two rows to add to the scoreboard
+      io.to(rId).emit("updateScores", rD[rId].curPts, rD[rId].totalPts);
     });
   });
 };
