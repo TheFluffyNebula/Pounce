@@ -24,4 +24,5 @@
 5/20/25 | socketized dropOnTableau, dropOnFoundation
 5/21/25 | pounce mechanic testing
 5/22/25 | curPts, totalPts calculations
+5/23/25 | scoreboard draft
 -- Back in the US --
