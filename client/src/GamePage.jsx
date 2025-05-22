@@ -19,9 +19,7 @@ function GamePage() {
     { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 3
   ]);
   const [foundation, setFoundation] = useState(Array(12).fill([]));
-  const [curPts, setCurPts] = useState(0);
-  // set pts list later?
-  const [totalPts, setTotalPts] = useState([0, 0, 0, 0]);
+  const [scores, setScores] = useState([[0], [0], [0], [0]]);
 
   useEffect(() => {
     function onRoomId(rId) {
@@ -48,8 +46,16 @@ function GamePage() {
       setFoundation(newFoundation);
     }
 
-    function onScoreboardUpdate(tPts) {
-      setTotalPts(tPts);
+    function onScoreboardUpdate(cPts, tPts) {
+      // console.log(cPts, tPts);
+      const newScores = [...scores];
+      // add both the rdPts and totalPts lines to the lists
+      for (let i = 0; i < 4; i++) {
+        newScores[i].push(cPts[i]);
+        newScores[i].push(tPts[i]);
+      }
+      // console.log(newScores);
+      setScores(newScores);
     }
 
     socket.on("roomId", onRoomId);
@@ -57,14 +63,14 @@ function GamePage() {
     socket.on("playerNum", onPlayerNum);
     socket.on("updateHands", onUpdateHands);
     socket.on("updateFoundation", onUpdateFoundation);
-    socket.on("scoreboardUpdate", onScoreboardUpdate);
+    socket.on("updateScores", onScoreboardUpdate);
     return () => {
       socket.off("roomId", onRoomId);
       socket.off("dealHands", onDealHands);
       socket.off("playerNum", onPlayerNum);
       socket.off("updateHands", onUpdateHands);
       socket.off("updateFoundation", onUpdateFoundation);
-      socket.off("scoreboardUpdate", onScoreboardUpdate);
+      socket.off("updateScores", onScoreboardUpdate);
     };
     // question: does the dependency array have to have {hands, foundation} in it?
   }, []);
