@@ -1,11 +1,9 @@
 frontend
 scoreboard
-* tally by round, append child (sum at the end)
+* tally by round
 styles for scoreboard, room creation screen
 
 backend
-2. store player state in App (move logic to backend)
-* functions now call socket.emit instead, pass information over to backend
 * consider server side validation for robustness
 3. game flow
 * round start, round end, game end

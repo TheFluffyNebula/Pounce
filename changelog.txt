@@ -7,7 +7,6 @@
 5/3/25 | merged components into hand
 5/4/25 | merge props
 5/5/25 | finishing up html/css
--- China trip (might work less when traveling) --
 5/6/25
 * fixed stock -> waste transition (z-index hitbox adjustment)
 * locked drag to player's own hand
@@ -25,4 +24,4 @@
 5/21/25 | pounce mechanic testing
 5/22/25 | curPts, totalPts calculations
 5/23/25 | scoreboard draft
--- Back in the US --
+5/25/25 | 
