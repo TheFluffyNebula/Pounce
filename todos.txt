@@ -8,6 +8,9 @@ backend
 3. game flow
 * round start, round end, game end
 
+deployment
+edit sockets, render commands
+
 possible optimizations:
 roomSockets.js: dropTableau, moving helpers outside
 cache consistency/smoother experience (but could lead to race conditions): send frontend update first
