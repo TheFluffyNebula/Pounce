@@ -25,3 +25,4 @@
 5/22/25 | curPts, totalPts calculations
 5/23/25 | scoreboard draft
 --break (research program started)--
+7/17/25 | I'm back! simple robustness fix -- same isPlaying check for the pounce listener

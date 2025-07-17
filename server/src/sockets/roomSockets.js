@@ -388,8 +388,12 @@ export default (io) => {
     });
 
     socket.on("pounce", () => {
-      console.log("[server] player has pounced!");
       const rId = socket.data.roomId;
+      // prevent a player from clicking the pounce button multiple times
+      if (!rD[rId].playing) {
+        return;
+      }
+      console.log("[server] player has pounced!");
       // prevent other players from playing any more cards while the total is being tallied
       rD[rId].playing = false;
       // update curPts w/ pounce pile lengths
