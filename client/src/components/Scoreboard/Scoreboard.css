@@ -1,0 +1,14 @@
+.scoresContainer {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 100px;
+
+    .scoresColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .playerColumn {
+        color: lightgreen;
+    }
+}
