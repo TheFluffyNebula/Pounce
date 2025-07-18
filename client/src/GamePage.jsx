@@ -5,6 +5,7 @@ import { socket } from "./socket";
 import './GamePage.css'
 import Hand from "./components/Hand/Hand"
 import Foundation from "./components/Foundation/Foundation"
+import Scoreboard from "./components/Scoreboard/Scoreboard"
 
 function GamePage() {
   const [room, setRoom] = useState("");
@@ -110,35 +111,42 @@ function GamePage() {
 
   return (
     <>
-      <div className="hand-wrapper hand-bottom">
-        <Hand
-          // handle the n = 4 case (set to zero here)
-          data={hands[(playerId + 3) % 4]}
-          isLocalPlayer={true}
-          onStockClick={handleDraw}
-          onDropToTableau={handleDropOnTableau}
-          onPounceClick={handlePounceClick}
-        />
+      <div className="gamepage-container">
+        <div className="playing-field">
+          <div className="hand-wrapper hand-bottom">
+            <Hand
+              // handle the n = 4 case (set to zero here)
+              data={hands[(playerId + 3) % 4]}
+              isLocalPlayer={true}
+              onStockClick={handleDraw}
+              onDropToTableau={handleDropOnTableau}
+              onPounceClick={handlePounceClick}
+              />
+          </div>
+          <div className="hand-wrapper hand-left">
+            <Hand
+                data={hands[(leftId + 3) % 4]}
+                isLocalPlayer={false}
+                />
+          </div>
+          <div className="hand-wrapper hand-top">
+            <Hand
+                data={hands[(topId + 3) % 4]}
+                isLocalPlayer={false}
+                />
+          </div>
+          <div className="hand-wrapper hand-right">
+            <Hand
+                data={hands[(rightId + 3) % 4]}
+                isLocalPlayer={false}
+                />
+          </div>
+          <Foundation foundationPiles={foundation} onDropToFoundation={handleDropOnFoundation}/>
+        </div>
+        <div className="scoreboard">
+          <Scoreboard scores={scores}></Scoreboard>
+        </div>
       </div>
-      <div className="hand-wrapper hand-left">
-        <Hand
-            data={hands[(leftId + 3) % 4]}
-            isLocalPlayer={false}
-          />
-      </div>
-      <div className="hand-wrapper hand-top">
-        <Hand
-            data={hands[(topId + 3) % 4]}
-            isLocalPlayer={false}
-          />
-      </div>
-      <div className="hand-wrapper hand-right">
-        <Hand
-            data={hands[(rightId + 3) % 4]}
-            isLocalPlayer={false}
-          />
-      </div>
-      <Foundation foundationPiles={foundation} onDropToFoundation={handleDropOnFoundation}/>
     </>
   )
 }
