@@ -1,7 +1,5 @@
 frontend
-scoreboard
 * tally by round
-styles for scoreboard, room creation screen
 
 backend
 * consider server side validation for robustness

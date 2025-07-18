@@ -413,6 +413,29 @@ export default (io) => {
       // console.log(rD[rId].curPts, rD[rId].totalPts);
       // the next two rows to add to the scoreboard
       io.to(rId).emit("updateScores", rD[rId].curPts, rD[rId].totalPts);
+      setTimeout(() => {
+        // if someone is above x pts, end game & highest amt wins
+        if (Math.max(...rD[rId].totalPts) >= 5) {
+          // 2/5 right now for testing (1-2 rounds), normally 75/100
+          io.to(rId).emit("serverMsg", "Game Over, highest score wins!");
+          console.log("Game Over!")
+        } else {
+          // start the next round
+          rD[rId] = {
+            // Cards to render
+            hands: [{ stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 0
+                    { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 1
+                    { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 2
+                    { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }], // Player 3
+            foundation: Array(12).fill([]), // Center cards
+            curPts: [0, 0, 0, 0], // Current points for this round
+            totalPts: [0, 0, 0, 0], // Total points for each player
+            playing: false, // Game start status
+          };
+          io.to(rId).emit("serverMsg", "Round over!");
+          io.to(socket.id).emit("nextRound"); // only send this to 1 person
+        }
+      }, 2000);
     });
   });
 };
