@@ -2,6 +2,11 @@
     display: flex;
     flex-direction: column;
 
+    .server-msg-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
     .playing-field {
         position: relative;
         width: 100%;

@@ -6,6 +6,7 @@ import './GamePage.css'
 import Hand from "./components/Hand/Hand"
 import Foundation from "./components/Foundation/Foundation"
 import Scoreboard from "./components/Scoreboard/Scoreboard"
+import ServerMsg from "./components/Scoreboard/ServerMsg";
 
 function GamePage() {
   const [room, setRoom] = useState("");
@@ -21,6 +22,7 @@ function GamePage() {
   ]);
   const [foundation, setFoundation] = useState(Array(12).fill([]));
   const [scores, setScores] = useState([[0], [0], [0], [0]]);
+  const [serverMsg, setServerMsg] = useState("Welcome!");
 
   useEffect(() => {
     function onRoomId(rId) {
@@ -59,12 +61,18 @@ function GamePage() {
       setScores(newScores);
     }
 
+    function onServerMsg(msg) {
+      // console.log('new server message!');
+      setServerMsg(msg);
+    }
+
     socket.on("roomId", onRoomId);
     socket.on("dealHands", onDealHands);
     socket.on("playerNum", onPlayerNum);
     socket.on("updateHands", onUpdateHands);
     socket.on("updateFoundation", onUpdateFoundation);
     socket.on("updateScores", onScoreboardUpdate);
+    socket.on("serverMsg", onServerMsg);
     return () => {
       socket.off("roomId", onRoomId);
       socket.off("dealHands", onDealHands);
@@ -72,6 +80,7 @@ function GamePage() {
       socket.off("updateHands", onUpdateHands);
       socket.off("updateFoundation", onUpdateFoundation);
       socket.off("updateScores", onScoreboardUpdate);
+      socket.off("serverMsg", onServerMsg);
     };
     // question: does the dependency array have to have {hands, foundation} in it?
   }, []);
@@ -112,6 +121,9 @@ function GamePage() {
   return (
     <>
       <div className="gamepage-container">
+        <div className="server-msg-wrapper">
+          <ServerMsg msg={serverMsg}/>
+        </div>
         <div className="playing-field">
           <div className="hand-wrapper hand-bottom">
             <Hand

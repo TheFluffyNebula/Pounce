@@ -421,6 +421,7 @@ export default (io) => {
           console.log("Game Over!")
         } else {
           // start the next round
+          console.log("Starting the next round!");
           rD[rId] = {
             // Cards to render
             hands: [{ stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 0
