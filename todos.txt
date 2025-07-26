@@ -1,10 +1,8 @@
 frontend
-* tally by round
+make pretty, lobby room bug
 
 backend
-* consider server side validation for robustness
-3. game flow
-* round start, round end, game end
+custom usernames
 
 deployment
 edit sockets, render commands

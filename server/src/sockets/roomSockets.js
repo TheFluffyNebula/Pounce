@@ -66,6 +66,8 @@ export default (io) => {
       rD[rId].curPts = [0, 0, 0, 0];
       rD[rId].playing = true;
       console.log("[server] Cards dealt to players");
+      // Reset the foundation
+      io.to(rId).emit("updateFoundation", rD[rId].foundation);
       // Emit the hands to everyone
       io.to(rId).emit("dealHands", rD[rId].hands);
     });

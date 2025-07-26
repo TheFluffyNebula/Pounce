@@ -27,3 +27,4 @@
 --break (research program started)--
 7/17/25 | I'm back! same isPlaying check for the pounce listener, minimal scoreboard
 7/18/25 | integrated start new round (not working at the moment)
+7/25/25 | added the server message (first draft complete!)
