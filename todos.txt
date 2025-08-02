@@ -1,5 +1,6 @@
 frontend
-make pretty, lobby room bug
+make pretty, lobby room ui (minor issue) (conditional rendering)
+floating banner/toast for notifications instead of static text
 
 backend
 custom usernames

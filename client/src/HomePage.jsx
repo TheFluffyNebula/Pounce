@@ -12,7 +12,7 @@ function HomePage() {
     console.log(`Creating room ${roomId}`);
     // call createRoom from roomUtils
     try {
-      const response = await fetch('http://localhost:3001/api/rooms/create', {
+      const response = await fetch('https://pounce.onrender.com/api/rooms/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
