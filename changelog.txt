@@ -29,3 +29,4 @@
 7/18/25 | integrated start new round (not working at the moment)
 7/25/25 | added the server message (first draft complete!)
 8/1/25 | deploy attempt 1 -- edits to vite.config.js, index.js, HomePage.jsx (fetch path), client/src/socket.js
+8/31/25: First draft complete!!

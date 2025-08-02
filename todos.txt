@@ -5,8 +5,7 @@ floating banner/toast for notifications instead of static text
 backend
 custom usernames
 
-deployment
-edit sockets, render commands
+deployment: complete!
 
 possible optimizations:
 roomSockets.js: dropTableau, moving helpers outside
