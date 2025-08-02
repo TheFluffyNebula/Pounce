@@ -6,7 +6,7 @@ import { Server } from "socket.io";
 import roomRoutes from "./routes/roomRoutes.js";
 import roomSockets from "./sockets/roomSockets.js";
 
-const clientServerUrl = process.env.CLIENT_URL || "http://localhost:5173";
+const clientServerUrl = process.env.CLIENT_URL || "http://localhost\:5173";
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
