@@ -61,7 +61,7 @@ const splitDeck = () => {
       }
   }
   // set to 1 to test pouncing (don't forget to set back to 9)
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 9; i++) {
     splitDeck.pounce.push(deck[cur++]);
   }
   for (let i = 0; i < 22; i++) {
