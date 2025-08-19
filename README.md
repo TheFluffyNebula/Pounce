@@ -3,8 +3,13 @@
 Pounce
 
 Deployed at pounce.onrender.com!
+Usage: 
+* type in anything and click 'create room'
+* room code is in the url
+* join on 3 other tabs
+* play!
 
-Purpose: The goal from the beginning (August 2024)
+Purpose: The goal from the beginning (July 2024)
 
 In short, multiplayer realtime solitaire. 
 
