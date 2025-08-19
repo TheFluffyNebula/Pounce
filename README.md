@@ -3,7 +3,7 @@
 Pounce
 
 Deployed at pounce.onrender.com!
-Usage: 
+Usage: \
 * type in anything and click 'create room'
 * room code is in the url
 * join on 3 other tabs
