@@ -417,7 +417,7 @@ export default (io) => {
       io.to(rId).emit("updateScores", rD[rId].curPts, rD[rId].totalPts);
       setTimeout(() => {
         // if someone is above x pts, end game & highest amt wins
-        if (Math.max(...rD[rId].totalPts) >= 5) {
+        if (Math.max(...rD[rId].totalPts) >= 100) {
           // 2/5 right now for testing (1-2 rounds), normally 75/100
           io.to(rId).emit("serverMsg", "Game Over, highest score wins!");
           console.log("Game Over!")
