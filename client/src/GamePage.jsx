@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { socket } from "./socket";
 
 import './GamePage.css'
@@ -9,7 +10,8 @@ import Scoreboard from "./components/Scoreboard/Scoreboard"
 import ServerMsg from "./components/Scoreboard/ServerMsg";
 
 function GamePage() {
-  const [room, setRoom] = useState("");
+  const { roomId: urlRoomId } = useParams();
+  const [gameStarted, setGameStarted] = useState(false);
   const [playerId, setPlayerId] = useState(2);
   const leftId = (playerId + 1) % 4;
   const topId = (playerId + 2) % 4;
@@ -25,13 +27,10 @@ function GamePage() {
   const [serverMsg, setServerMsg] = useState("Welcome!");
 
   useEffect(() => {
-    function onRoomId(rId) {
-      setRoom(rId);
-    }
-
     function onDealHands(receivedHands) {
       console.log("[client] Hands received:", receivedHands);
       setHands(receivedHands);
+      setGameStarted(true);
     }
 
     function onPlayerNum(n) {
@@ -66,7 +65,6 @@ function GamePage() {
       setServerMsg(msg);
     }
 
-    socket.on("roomId", onRoomId);
     socket.on("dealHands", onDealHands);
     socket.on("playerNum", onPlayerNum);
     socket.on("updateHands", onUpdateHands);
@@ -74,7 +72,6 @@ function GamePage() {
     socket.on("updateScores", onScoreboardUpdate);
     socket.on("serverMsg", onServerMsg);
     return () => {
-      socket.off("roomId", onRoomId);
       socket.off("dealHands", onDealHands);
       socket.off("playerNum", onPlayerNum);
       socket.off("updateHands", onUpdateHands);
@@ -116,6 +113,28 @@ function GamePage() {
   const handlePounceClick = () => {
     console.log("[client] player has pounced");
     socket.emit("pounce");
+  }
+
+  if (!gameStarted) {
+    return (
+      <div className="lobby-screen">
+        <div className="lobby-card">
+          <div className="lobby-suits">
+            <span className="suit red">♥</span>
+            <span className="suit black">♠</span>
+            <span className="suit red">♦</span>
+            <span className="suit black">♣</span>
+          </div>
+          <h1 className="lobby-title">Waiting for Players</h1>
+          <p className="lobby-room-label">Room Code</p>
+          <div className="lobby-room-code">{urlRoomId}</div>
+          <p className="lobby-hint">Share this code with up to 3 friends</p>
+          <div className="lobby-dots">
+            <span /><span /><span />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
