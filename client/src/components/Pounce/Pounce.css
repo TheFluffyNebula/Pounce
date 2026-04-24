@@ -1,5 +1,29 @@
 .empty-pounce-slot {
-    border: 2px solid black;
+    border: 2px solid rgba(224, 92, 122, 0.7);
+    border-radius: 8px;
     width: 100px;
     height: 140px;
+    background: rgba(224, 92, 122, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.empty-pounce-slot:hover {
+    background: rgba(224, 92, 122, 0.25);
+    box-shadow: 0 0 14px rgba(224, 92, 122, 0.5);
+}
+
+.empty-pounce-slot h2 {
+    color: #e05c7a;
+    font-size: 0.75rem;
+    font-family: 'Georgia', serif;
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }

@@ -16,16 +16,10 @@
     height: 140px;
 }
 
-.card.face-down {
-    background-color: navy;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 100px;
-    height: 140px;
-}
-
 .empty-tableau-column-slot {
-    border: 2px solid black;
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 8px;
     width: 100px;
     height: 140px;
+    background: rgba(0,0,0,0.12);
 }

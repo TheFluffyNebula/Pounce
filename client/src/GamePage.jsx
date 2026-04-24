@@ -175,7 +175,7 @@ function GamePage() {
           <Foundation foundationPiles={foundation} onDropToFoundation={handleDropOnFoundation}/>
         </div>
         <div className="scoreboard">
-          <Scoreboard scores={scores} playerId={playerId % 4}></Scoreboard>
+          <Scoreboard scores={scores} playerId={(playerId + 3) % 4}></Scoreboard>
         </div>
       </div>
     </>

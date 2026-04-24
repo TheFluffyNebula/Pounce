@@ -1,34 +1,36 @@
 .card {
     width: 100px;
     height: 140px;
-    border: 2px solid #000;
+    border: 1px solid #b0a899;
     border-radius: 8px;
     position: relative;
-    background-color: white;
+    background: #fffef8;
     font-family: 'Georgia', serif;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25), 0 6px 14px rgba(0,0,0,0.15);
+    user-select: none;
 }
 
 .card.red {
-    color: red;
+    color: #c0392b;
 }
 
 .corner {
     position: absolute;
     font-size: 16px;
+    font-weight: 700;
     line-height: 1.2;
     text-align: left;
 }
 
 .top-left {
-    top: 8px;
-    left: 8px;
+    top: 6px;
+    left: 7px;
 }
 
 .bottom-right {
-    bottom: 8px;
-    right: 8px;
-    transform: rotate(180deg); /* Makes it look like a flipped corner */
+    bottom: 6px;
+    right: 7px;
+    transform: rotate(180deg);
 }
 
 .center {
@@ -36,5 +38,26 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 24px;
+    font-size: 28px;
+}
+
+.card.face-down {
+    background:
+        repeating-linear-gradient(
+            45deg,
+            rgba(255,255,255,0.04) 0px,
+            rgba(255,255,255,0.04) 2px,
+            transparent 2px,
+            transparent 9px
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            rgba(255,255,255,0.04) 0px,
+            rgba(255,255,255,0.04) 2px,
+            transparent 2px,
+            transparent 9px
+        ),
+        linear-gradient(160deg, #1e3a8a 0%, #0f2461 100%);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 0 0 5px rgba(255,255,255,0.07);
 }
