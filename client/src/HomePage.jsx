@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { socket } from "./socket";
+import './HomePage.css';
 
 function HomePage() {
   const [roomId, setRoomId] = useState("");
@@ -42,14 +43,28 @@ function HomePage() {
 
   return (
     <div className="homepage">
-      <input
-        type="text"
-        placeholder="Enter room ID"
-        value={roomId}
-        onChange={(e) => setRoomId(e.target.value)}
-      />
-      <button onClick={createRoom}>Create Room</button>
-      <button onClick={joinRoom}>Join Room</button>
+      <div className="homepage-title">
+        <span className="homepage-suits">
+          <span className="suit red">♥</span>
+          <span className="suit black">♠</span>
+        </span>
+        <h1>Pounce</h1>
+        <span className="homepage-suits">
+          <span className="suit red">♦</span>
+          <span className="suit black">♣</span>
+        </span>
+      </div>
+      <div className="homepage-card">
+        <input
+          type="text"
+          placeholder="Room code"
+          value={roomId}
+          onChange={(e) => setRoomId(e.target.value)}
+        />
+        <button className="btn-create" onClick={createRoom}>Create Room</button>
+        <hr className="homepage-divider" />
+        <button className="btn-join" onClick={joinRoom}>Join Room</button>
+      </div>
     </div>
   );
 }
