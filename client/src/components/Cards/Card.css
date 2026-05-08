@@ -1,35 +1,36 @@
 .card {
     width: 100px;
     height: 140px;
-    border: 1px solid #b0a899;
-    border-radius: 8px;
+    border: 2px solid rgba(0,240,255,0.55);
+    border-radius: 4px;
     position: relative;
-    background: #fffef8;
-    font-family: 'Georgia', serif;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.25), 0 6px 14px rgba(0,0,0,0.15);
+    background: #e8e8f4;
+    font-family: 'Press Start 2P', monospace;
+    box-shadow: 0 0 8px rgba(0,240,255,0.2), 0 3px 10px rgba(0,0,0,0.5);
     user-select: none;
 }
 
 .card.red {
-    color: #c0392b;
+    color: #ff0080;
+    border-color: rgba(255,0,128,0.55);
+    box-shadow: 0 0 8px rgba(255,0,128,0.2), 0 3px 10px rgba(0,0,0,0.5);
 }
 
 .corner {
     position: absolute;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.2;
+    font-size: 9px;
+    line-height: 1.4;
     text-align: left;
 }
 
 .top-left {
-    top: 6px;
-    left: 7px;
+    top: 5px;
+    left: 6px;
 }
 
 .bottom-right {
-    bottom: 6px;
-    right: 7px;
+    bottom: 5px;
+    right: 6px;
     transform: rotate(180deg);
 }
 
@@ -38,26 +39,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 28px;
+    font-size: 22px;
 }
 
 .card.face-down {
-    background:
-        repeating-linear-gradient(
-            45deg,
-            rgba(255,255,255,0.04) 0px,
-            rgba(255,255,255,0.04) 2px,
-            transparent 2px,
-            transparent 9px
-        ),
-        repeating-linear-gradient(
-            -45deg,
-            rgba(255,255,255,0.04) 0px,
-            rgba(255,255,255,0.04) 2px,
-            transparent 2px,
-            transparent 9px
-        ),
-        linear-gradient(160deg, #1e3a8a 0%, #0f2461 100%);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 0 0 5px rgba(255,255,255,0.07);
+    background: #050515;
+    background-image:
+        linear-gradient(rgba(0,240,255,0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,240,255,0.12) 1px, transparent 1px);
+    background-size: 10px 10px;
+    border: 2px solid rgba(0,240,255,0.45);
+    box-shadow: 0 0 12px rgba(0,240,255,0.25), inset 0 0 20px rgba(0,0,0,0.6);
 }

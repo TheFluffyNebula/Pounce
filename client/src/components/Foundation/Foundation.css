@@ -9,9 +9,9 @@
 }
 
 .empty-foundation-slot {
-    border: 2px dashed rgba(255,255,255,0.25);
-    border-radius: 8px;
+    border: 2px dashed rgba(0,240,255,0.2);
+    border-radius: 4px;
     width: 100px;
     height: 140px;
-    background: rgba(0,0,0,0.15);
+    background: rgba(0,240,255,0.02);
 }
