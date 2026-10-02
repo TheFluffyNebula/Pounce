@@ -1,5 +1,7 @@
 .empty-waste-slot {
-    border: 2px solid black;
+    border: 2px dashed rgba(0,240,255,0.2);
+    border-radius: 4px;
     width: 100px;
     height: 140px;
+    background: rgba(0,240,255,0.02);
 }

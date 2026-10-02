@@ -10,6 +10,7 @@ function Scoreboard({ scores, playerId }) {
                     className={`scoresColumn ${colIdx === playerId ? 'playerColumn' : ''}`}
                     key={colIdx}
                 >
+                    <div className="player-label">P{colIdx + 1}</div>
                     {Array.from({ length: n }, (_, rowIdx) => (
                         <div key={rowIdx}>{tallies[rowIdx]}</div>
                     ))}

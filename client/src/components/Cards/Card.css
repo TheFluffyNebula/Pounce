@@ -1,34 +1,37 @@
 .card {
     width: 100px;
     height: 140px;
-    border: 2px solid #000;
-    border-radius: 8px;
+    border: 2px solid rgba(0,240,255,0.55);
+    border-radius: 4px;
     position: relative;
-    background-color: white;
-    font-family: 'Georgia', serif;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    background: #e8e8f4;
+    font-family: 'Press Start 2P', monospace;
+    box-shadow: 0 0 8px rgba(0,240,255,0.2), 0 3px 10px rgba(0,0,0,0.5);
+    user-select: none;
 }
 
 .card.red {
-    color: red;
+    color: #ff0080;
+    border-color: rgba(255,0,128,0.55);
+    box-shadow: 0 0 8px rgba(255,0,128,0.2), 0 3px 10px rgba(0,0,0,0.5);
 }
 
 .corner {
     position: absolute;
-    font-size: 16px;
-    line-height: 1.2;
+    font-size: 9px;
+    line-height: 1.4;
     text-align: left;
 }
 
 .top-left {
-    top: 8px;
-    left: 8px;
+    top: 5px;
+    left: 6px;
 }
 
 .bottom-right {
-    bottom: 8px;
-    right: 8px;
-    transform: rotate(180deg); /* Makes it look like a flipped corner */
+    bottom: 5px;
+    right: 6px;
+    transform: rotate(180deg);
 }
 
 .center {
@@ -36,5 +39,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 24px;
+    font-size: 22px;
+}
+
+.card.face-down {
+    background: #050515;
+    background-image:
+        linear-gradient(rgba(0,240,255,0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,240,255,0.12) 1px, transparent 1px);
+    background-size: 10px 10px;
+    border: 2px solid rgba(0,240,255,0.45);
+    box-shadow: 0 0 12px rgba(0,240,255,0.25), inset 0 0 20px rgba(0,0,0,0.6);
 }
