@@ -1,17 +1,28 @@
+/* Pinned to the middle of the board instead of being nudged down from the top
+   of the flow with a scale + vh translate. */
 .foundationContainer {
+    --cw: 8.2cqmin;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Sits slightly above centre. Your own hand is much larger than the other
+       three, so it needs more of the vertical budget than they do; dead-centre
+       left ~110px unused above the top seat and only ~25px below yours. */
+    transform: translate(-50%, calc(-50% - 5cqmin));
+    z-index: 3;
     display: grid;
-    grid-template-rows: repeat(2, 140px);
-    grid-template-columns: repeat(6, 100px);
-    gap: 10px;
+    grid-template-rows: repeat(2, calc(var(--cw) * 1.4));
+    grid-template-columns: repeat(6, var(--cw));
+    gap: calc(var(--cw) * 0.1);
     justify-content: center;
     align-items: center;
-    transform: scale(0.6) translateY(48vh);
 }
 
 .empty-foundation-slot {
-    border: 2px dashed rgba(0,240,255,0.2);
+    border: var(--slot-border) dashed var(--slot-line);
     border-radius: 4px;
-    width: 100px;
-    height: 140px;
-    background: rgba(0,240,255,0.02);
+    width: var(--cw);
+    height: calc(var(--cw) * 1.4);
+    background: var(--slot-fill);
+    box-shadow: var(--slot-glow);
 }

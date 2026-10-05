@@ -6,6 +6,17 @@
     --neon-yellow: #ffe600;
     --neon-green:  #00ff88;
     --dark-bg:     #05050f;
+
+    /* Card width — the unit the whole board is built from. The board overrides
+       this per seat; this value only applies to a card rendered outside it. */
+    --cw: 64px;
+
+    /* Empty drop targets. Kept bright so it reads at a glance where a card can
+       go — these are the only cue for a legal destination. */
+    --slot-line: rgba(0,240,255,0.65);
+    --slot-fill: rgba(0,240,255,0.06);
+    --slot-glow: 0 0 10px rgba(0,240,255,0.22), inset 0 0 14px rgba(0,240,255,0.07);
+    --slot-border: max(2px, calc(var(--cw) * 0.05));
 }
 
 *, *::before, *::after {

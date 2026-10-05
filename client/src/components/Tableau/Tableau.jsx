@@ -9,8 +9,11 @@ function Tableau({ tableauPiles, onDropToTableau, drag }) {
     return (
         <div className="tableauContainer">
             {tableauPiles.map((pile, colIdx) => (
-                <div className="tableauColumn" 
+                <div className="tableauColumn"
                      key={colIdx}
+                     // Drives the overlap: a deep column tightens so its last
+                     // card — the playable one — stays inside the board.
+                     style={{ "--pile": Math.max(pile.length, 1) }}
                      onDragOver={(e) => e.preventDefault()}
                      onDrop={(e) => {
                         e.preventDefault();
@@ -26,7 +29,7 @@ function Tableau({ tableauPiles, onDropToTableau, drag }) {
                         }
                      }}
                      >
-                    {Array.from({ length: 13 }, (_, rowIdx) => {
+                    {Array.from({ length: Math.max(13, pile.length) }, (_, rowIdx) => {
                         const card = pile[rowIdx] || null;
                         const faceUp = card?.faceUp || false;
                         const topCard = rowIdx === pile.length - 1; // top card in the column

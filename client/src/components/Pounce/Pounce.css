@@ -1,8 +1,8 @@
 .empty-pounce-slot {
     border: 2px solid rgba(255,230,0,0.7);
     border-radius: 4px;
-    width: 100px;
-    height: 140px;
+    width: var(--cw);
+    height: calc(var(--cw) * 1.4);
     background: rgba(255,230,0,0.04);
     cursor: pointer;
     display: flex;
@@ -28,7 +28,7 @@
 .empty-pounce-slot p {
     color: var(--neon-yellow);
     text-shadow: 0 0 8px var(--neon-yellow);
-    font-size: 0.6rem;
+    font-size: calc(var(--cw) * 0.1);
     font-family: 'Press Start 2P', monospace;
     text-align: center;
     margin: 0;

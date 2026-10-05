@@ -1,17 +1,19 @@
 .hand {
     display: flex;
-    gap: 100px;
+    gap: calc(var(--cw) * 0.3);
 }
 
 .drawContainer {
     display: flex;
-    gap: 10px;
+    gap: calc(var(--cw) * 0.1);
 }
 
 .leftContainer {
-    margin-top: 100px;
+    /* Flush with the top of the hand — the tableau's own lead-in is what
+       staggers the two columns now. */
+    margin-top: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: calc(var(--cw) * 0.1);
     align-items: center;
 }

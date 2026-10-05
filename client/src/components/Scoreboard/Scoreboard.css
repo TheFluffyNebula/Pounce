@@ -1,10 +1,14 @@
 .scoresContainer {
+    /* A row is added per round, so cap the height — otherwise a long game
+       would squeeze the board above it. */
+    max-height: 22vh;
+    overflow-y: auto;
     display: flex;
     justify-content: center;
     gap: 40px;
     background: rgba(0,0,0,0.85);
     border-top: 2px solid rgba(0,240,255,0.2);
-    padding: 16px 40px;
+    padding: 8px 40px;
     font-family: 'Press Start 2P', monospace;
 
     .scoresColumn {
