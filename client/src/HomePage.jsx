@@ -1,42 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { socket } from "./socket";
 import './HomePage.css';
 
 function HomePage() {
   const [roomId, setRoomId] = useState("");
+  const [error, setError] = useState("");
+
+  // App.jsx handles the happy path (status 0/3); we only report the failures,
+  // which previously went to the console and left the player staring at nothing.
+  useEffect(() => {
+    function onJoinStatus(status) {
+      if (status == 1) {
+        setError("No room with that code. Check it, or create it instead.");
+      } else if (status == 2) {
+        setError("That room already has 4 players.");
+      }
+    }
+    socket.on("joinStatus", onJoinStatus);
+    return () => socket.off("joinStatus", onJoinStatus);
+  }, []);
 
   const createRoom = async () => {
     if (!roomId) {
-      alert("Room ID cannot be empty");
+      setError("Room code cannot be empty");
       return;
     }
+    setError("");
     console.log(`Creating room ${roomId}`);
-    // call createRoom from roomUtils
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL || "https://pounce.onrender.com"}/api/rooms/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        // Send the typed code so the creator and their friends use the same one
+        body: JSON.stringify({ roomId }),
       });
-      // console.log(response);
+      const data = await response.json().catch(() => ({}));
       if (response.ok) {
-        const data = await response.json();
         socket.emit("join", data.roomId);
         console.log('Room created:', data);
       } else {
-        console.error('Failed to create room');
+        setError(data.error || "Failed to create room. Try again.");
       }
     } catch (error) {
       console.error('Error:', error);
+      setError("Can't reach the server. Try again in a moment.");
     }
   };
 
   const joinRoom = () => {
     if (roomId === "") {
-      alert("Room ID cannot be empty");
+      setError("Room code cannot be empty");
       return;
     }
+    setError("");
     console.log(`Joining room ${roomId}`);
     socket.emit("join", roomId);
   };
@@ -64,6 +82,7 @@ function HomePage() {
         <button className="btn-create" onClick={createRoom}>Create Room</button>
         <hr className="homepage-divider" />
         <button className="btn-join" onClick={joinRoom}>Join Room</button>
+        {error && <p className="homepage-error">{error}</p>}
       </div>
     </div>
   );

@@ -4,15 +4,40 @@ import { splitDeck, SUIT_TO_COLOR, VALUE_TO_NUMBER } from "../utils/createDeck.j
 // roomsData
 const rD = {}; // Object to store room-specific data
 
+// Blank room state. totalPts is cumulative across rounds, so it is carried in
+// from the previous round rather than reset; everything else starts empty.
+const freshRoomData = (totalPts = [0, 0, 0, 0]) => ({
+  // Cards to render
+  hands: [{ stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 0
+          { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 1
+          { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 2
+          { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }], // Player 3
+  foundation: Array(12).fill([]), // Center cards
+  curPts: [0, 0, 0, 0], // Current points for this round
+  totalPts: [...totalPts], // Total points for each player, carried over
+  playing: false, // Game start status
+});
+
 export default (io) => {
   io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
 
-    socket.on("join", (roomId) => {
-      socket.join(roomId);
-      // Store roomId on the socket object
-      socket.data.roomId = roomId;
+    socket.on("join", (rawRoomId) => {
+      const roomId = String(rawRoomId ?? "").trim().toLowerCase();
+      // Ignore a second join from a socket that is already seated, otherwise a
+      // double-click or a remount would burn two of the four slots.
+      if (socket.data.roomId) {
+        io.to(socket.id).emit("joinStatus", 0, socket.data.roomId);
+        return;
+      }
       const result = roomUtils.joinRoom(roomId, socket.id);
+      // Only subscribe to the broadcast channel once the seat is actually ours;
+      // joining first meant rejected sockets still received every game update.
+      if (result == 0 || result == 3) {
+        socket.join(roomId);
+        socket.data.roomId = roomId;
+        io.to(roomId).emit("lobbyUpdate", roomUtils.getPlayersInRoom(roomId).length);
+      }
       if (result == 0) {
         console.log("[server] room successfully joined!");
       } else if (result == 1) {
@@ -25,18 +50,10 @@ export default (io) => {
         // receives gets dealHand emit
         io.to(socket.id).emit("finalCheck", roomId);
 
-        // here is a good spot to setup the room-specific data
-        rD[roomId] = {
-          // Cards to render
-          hands: [{ stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 0
-                  { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 1
-                  { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 2
-                  { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }], // Player 3
-          foundation: Array(12).fill([]), // Center cards
-          curPts: [0, 0, 0, 0], // Current points for this round
-          totalPts: [0, 0, 0, 0], // Total points for each player
-          playing: false, // Game start status
-        };
+        // here is a good spot to setup the room-specific data. If the room is
+        // already mid-game and this is a replacement for someone who dropped,
+        // keep the running totals instead of wiping everyone's score.
+        rD[roomId] = freshRoomData(rD[roomId]?.totalPts);
         return; // don't go here twice
       }
       // console.log("emitting joinStatus");
@@ -422,23 +439,36 @@ export default (io) => {
           io.to(rId).emit("serverMsg", "Game Over, highest score wins!");
           console.log("Game Over!")
         } else {
-          // start the next round
+          // start the next round, keeping the cumulative scores
           console.log("Starting the next round!");
-          rD[rId] = {
-            // Cards to render
-            hands: [{ stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 0
-                    { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 1
-                    { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }, // Player 2
-                    { stockPile: [], wastePile: [], tableau: [], pouncePile: [] }], // Player 3
-            foundation: Array(12).fill([]), // Center cards
-            curPts: [0, 0, 0, 0], // Current points for this round
-            totalPts: [0, 0, 0, 0], // Total points for each player
-            playing: false, // Game start status
-          };
+          rD[rId] = freshRoomData(rD[rId].totalPts);
           io.to(rId).emit("serverMsg", "Round over!");
           io.to(socket.id).emit("nextRound"); // only send this to 1 person
         }
       }, 2000);
+    });
+
+    socket.on("disconnect", (reason) => {
+      const rId = socket.data.roomId;
+      console.log(`User Disconnected: ${socket.id} (${reason})`);
+      if (!rId) return;
+
+      const remaining = roomUtils.leaveRoom(rId, socket.id);
+      if (remaining === -1) return;
+      console.log(`[server] ${socket.id} left room ${rId}, ${remaining} remaining`);
+
+      if (remaining === 0) {
+        // Nobody left to play — drop the game state so the code is reusable.
+        delete rD[rId];
+        return;
+      }
+
+      // A round can't continue a player down; park everyone back in the lobby.
+      if (rD[rId]) {
+        rD[rId].playing = false;
+      }
+      io.to(rId).emit("lobbyUpdate", remaining);
+      io.to(rId).emit("serverMsg", "A player left the game.");
     });
   });
 };
