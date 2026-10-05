@@ -1,7 +1,8 @@
 .empty-waste-slot {
-    border: 2px dashed rgba(0,240,255,0.2);
+    border: var(--slot-border) dashed var(--slot-line);
     border-radius: 4px;
-    width: 100px;
-    height: 140px;
-    background: rgba(0,240,255,0.02);
+    width: var(--cw);
+    height: calc(var(--cw) * 1.4);
+    background: var(--slot-fill);
+    box-shadow: var(--slot-glow);
 }

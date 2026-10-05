@@ -112,28 +112,40 @@
 .gamepage-container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    /* height, not min-height: the field below is sized to the leftover space
+       rather than a full 100vh stacked under the message bar. */
+    height: 100vh;
+    overflow: hidden;
     background: var(--dark-bg);
+}
 
-    .server-msg-wrapper {
-        display: flex;
-        justify-content: center;
-        padding: 10px 0 6px;
-        background: rgba(0,0,0,0.7);
-        border-bottom: 1px solid rgba(0,240,255,0.15);
-    }
+.server-msg-wrapper {
+    flex: none;
+    display: flex;
+    justify-content: center;
+    padding: 5px 0 4px;
+    background: rgba(0,0,0,0.7);
+    border-bottom: 1px solid rgba(0,240,255,0.15);
+}
 
-    .playing-field {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        background:
-            radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.75) 100%),
-            linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px),
-            #05050f;
-        background-size: auto, 50px 50px, 50px 50px;
-    }
+/* The board. `container-type: size` makes this box the reference for every
+   cqmin length below, so the whole game scales with the field rather than
+   with the viewport — the message bar and scoreboard are already subtracted. */
+.playing-field {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    container-type: size;
+    background:
+        radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.75) 100%),
+        linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px),
+        #05050f;
+    background-size: auto, 5vmin 5vmin, 5vmin 5vmin;
+}
+
+.scoreboard {
+    flex: none;
 }
 
 .server-msg p {
@@ -145,32 +157,67 @@
     text-transform: uppercase;
 }
 
-.hand-wrapper {
-    position: absolute;
-    transform-origin: center;
-}
+/* Every hand is the same block: 9.65 x 5.6 card-widths, with the part that
+   actually shows cards in the top 3.5 — enough for a 7-deep column, against a
+   deepest deal of 6. All four are pinned to the board centre, rotated to face
+   their seat, then pushed out along their own axis — so the only thing that
+   differs per seat is an angle and a distance, and no value depends on the
+   window's aspect ratio.
 
-.hand-bottom {
-    bottom: 0;
+   The block's WIDTH is what caps card size: the side hands are rotated, so
+   their width has to fit the screen's height. Keep the gaps in Hand.css and
+   Tableau.css tight and every seat can be bigger.
+
+   --cw (card width) is the one knob: every length in the game is a multiple of
+   it, so changing it here resizes the whole board consistently. */
+.hand-wrapper {
+    /* Opponents' cards. The local hand below is deliberately much larger —
+       it's the one you actually read and drag from. */
+    --cw: 8.4cqmin;
+    /* How far out a seat can sit. Each axis is capped against the other so an
+       extreme window spreads the board only so far, but the cap is loose: a
+       tight one pulls the side seats inward until they collide with the
+       corners of the bottom hand. */
+    --reach-v: min(50cqh, 95cqw);
+    --reach-h: min(50cqw, 95cqh);
+    position: absolute;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%) scale(0.6) translateY(60vh);
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(var(--seat)) translateY(var(--edge));
     z-index: 1;
 }
 
-.hand-left {
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%) rotate(-90deg) scale(0.5) translateY(-50vw);
-}
-
+/* All four seats face inward, so every player's draw/pounce column sits on
+   their own left and their columns deal toward the middle. Sit each block so
+   its last visible row lands on the board edge and the unused rows below
+   trail off it. (3.5 band - 5.6/2 block = 0.7) */
+.hand-bottom,
 .hand-top {
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%) rotate(180deg) scale(0.5) translateY(80vh);
+    --edge: calc(var(--reach-v) - var(--cw) * 0.7);
 }
 
+.hand-left,
 .hand-right {
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%) rotate(90deg) scale(0.5) translateY(-50vw);
+    --edge: calc(var(--reach-h) - var(--cw) * 0.7);
+}
+
+/* Your hand. cqmin sizes it against the vertical budget; the cqw term is a
+   guard so the 9.65-wide block can never overrun a narrow window. */
+.hand-bottom {
+    --seat: 0deg;
+    --cw: min(10.9cqmin, 10.3cqw);
+    z-index: 2;
+}
+.hand-left   { --seat: 90deg; }
+.hand-top    { --seat: 180deg; }
+.hand-right  { --seat: -90deg; }
+
+/* Opponents' hands are display-only. Their invisible empty tableau rows reach
+   toward the middle of the board, and without this they would swallow drops
+   meant for the foundation. */
+.hand-left,
+.hand-top,
+.hand-right {
+    pointer-events: none;
 }
