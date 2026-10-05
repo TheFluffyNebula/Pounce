@@ -39,7 +39,7 @@ npm start        # Express + Socket.io on port 3001 (or $PORT)
 - **`sockets/roomSockets.js`** — Core game logic engine (~445 lines): handles all card movement events, validates moves, updates game state, and broadcasts changes
 - **`utils/roomUtils.js`** — Room lifecycle: join/leave, player tracking, stock cycling
 - **`utils/createDeck.js`** — Deck creation and shuffle; splits 52 cards into Tableau (21), Stock (22), Pounce (9)
-- **`routes/roomRoutes.js`** + **`controllers/roomController.js`** — `POST /api/rooms/create` endpoint
+- **`routes/roomRoutes.js`** + **`controllers/roomController.js`** — `POST /api/rooms/create`; takes `{ roomId }` (lowercased, `[a-z0-9-]{1,16}`), 409s if taken, generates a 6-char code when omitted
 
 ### Game State Shape (server `rD` object)
 ```js
@@ -82,10 +82,11 @@ npm start        # Express + Socket.io on port 3001 (or $PORT)
 | Server→Client | `updateHands(hands)` | Hand state after any move |
 | Server→Client | `updateFoundation(foundation)` | Foundation state after any move |
 | Server→Client | `updateScores(curPts, totalPts)` | Score broadcast |
+| Server→Client | `lobbyUpdate(count)` | Roster size changed (join/disconnect) |
 
 ## Known Limitations / TODOs
 
 - Server URL is hardcoded to production in `client/src/socket.js` — must change for local dev
-- No room cleanup on player disconnect (rooms persist in memory)
+- A player who refreshes re-claims their seat, but the round restarts from scratch (no state hand-back)
 - No custom usernames — players are identified by index (0–3)
 - No test suite — `npm test` is a placeholder

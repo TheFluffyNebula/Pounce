@@ -25,6 +25,7 @@ function GamePage() {
   const [foundation, setFoundation] = useState(Array(12).fill([]));
   const [scores, setScores] = useState([[0], [0], [0], [0]]);
   const [serverMsg, setServerMsg] = useState("Welcome!");
+  const [playerCount, setPlayerCount] = useState(1);
 
   useEffect(() => {
     function onDealHands(receivedHands) {
@@ -65,7 +66,15 @@ function GamePage() {
       setServerMsg(msg);
     }
 
+    // Roster changed. Dropping below 4 means the round can't continue, so fall
+    // back to the lobby rather than leaving a dead board on screen.
+    function onLobbyUpdate(count) {
+      setPlayerCount(count);
+      if (count < 4) setGameStarted(false);
+    }
+
     socket.on("dealHands", onDealHands);
+    socket.on("lobbyUpdate", onLobbyUpdate);
     socket.on("playerNum", onPlayerNum);
     socket.on("updateHands", onUpdateHands);
     socket.on("updateFoundation", onUpdateFoundation);
@@ -73,6 +82,7 @@ function GamePage() {
     socket.on("serverMsg", onServerMsg);
     return () => {
       socket.off("dealHands", onDealHands);
+      socket.off("lobbyUpdate", onLobbyUpdate);
       socket.off("playerNum", onPlayerNum);
       socket.off("updateHands", onUpdateHands);
       socket.off("updateFoundation", onUpdateFoundation);
@@ -81,6 +91,17 @@ function GamePage() {
     };
     // question: does the dependency array have to have {hands, foundation} in it?
   }, []);
+
+  // Claim a seat for anyone who arrived here without going through HomePage
+  // (a refresh, or a pasted /room/<code> link). The server ignores this when
+  // the socket already holds a seat.
+  useEffect(() => {
+    if (!urlRoomId) return;
+    const claimSeat = () => socket.emit("join", urlRoomId);
+    claimSeat();
+    socket.on("connect", claimSeat);
+    return () => socket.off("connect", claimSeat);
+  }, [urlRoomId]);
 
   const handleDraw = () => {
     // console.log("Handling draw!", playerId);
@@ -128,7 +149,7 @@ function GamePage() {
           <h1 className="lobby-title">Waiting for Players</h1>
           <p className="lobby-room-label">Room Code</p>
           <div className="lobby-room-code">{urlRoomId}</div>
-          <p className="lobby-hint">Share this code with up to 3 friends</p>
+          <p className="lobby-hint">{playerCount} / 4 players &middot; share this code with up to 3 friends</p>
           <div className="lobby-dots">
             <span /><span /><span />
           </div>

@@ -8,13 +8,18 @@ const generateId = () => {
 
 let rooms = new Map();
 
+const hasRoom = (roomId) => rooms.has(roomId);
+
+// returns false if the code is already taken
 const createRoom = (roomId) => {
+  if (rooms.has(roomId)) return false;
   rooms.set(roomId, { players: [], isPlaying: false });
+  return true;
 };
 createRoom('a'); // bypass create-room test
 
 const getPlayersInRoom = (roomId) => {
-  return rooms.get(roomId).players;
+  return rooms.get(roomId)?.players ?? [];
 }
 
 const joinRoom = (roomId, userId) => {
@@ -27,6 +32,21 @@ const joinRoom = (roomId, userId) => {
     return 3; // start game!
   }
   return 0;
+};
+
+// Drop a player from the roster. Returns the number of players left, or -1 if
+// the socket wasn't in the room. The room itself is torn down once it empties
+// so an abandoned code can be reused instead of sitting there permanently full.
+const leaveRoom = (roomId, userId) => {
+  const room = rooms.get(roomId);
+  if (!room) return -1;
+  const idx = room.players.indexOf(userId);
+  if (idx === -1) return -1;
+  room.players.splice(idx, 1);
+  if (room.players.length === 0 && roomId !== 'a') {
+    rooms.delete(roomId);
+  }
+  return room.players.length;
 };
 
 // stockPile implemented as a queue: idx = n - 1 is out first
@@ -49,4 +69,4 @@ const drawCard = (stockPile, wastePile) => {
     }
 }
 
-export { generateId, createRoom, getPlayersInRoom, joinRoom, drawCard };
+export { generateId, createRoom, hasRoom, getPlayersInRoom, joinRoom, leaveRoom, drawCard };
